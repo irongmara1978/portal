@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TC Data Loader - Irongmara ME School</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f4f7f6;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; margin: 0;
+        }
+        .container {
+            background: white; padding: 40px;
+            border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center; width: 400px;
+        }
+        h2 { color: #1e40af; margin-bottom: 25px; text-transform: uppercase; font-size: 1.2rem; }
+        .file-upload-container { margin-bottom: 20px; }
+        input[type="file"] { display: none; }
+        button {
+            width: 100%; padding: 12px;
+            background-color: #1e40af; color: white;
+            border: none; border-radius: 6px;
+            cursor: pointer; font-weight: bold; transition: 0.3s;
+        }
+        button:hover { background-color: #1e3a8a; }
+        button:disabled { background-color: #9ca3af; cursor: not-allowed; }
+        select {
+            width: 100%; padding: 10px; margin: 20px 0;
+            border-radius: 6px; border: 1px solid #ddd;
+        }
+        .status { margin-top: 15px; font-size: 0.9rem; min-height: 20px; }
+        .error { color: #dc2626; }
+        .success { color: #16a34a; }
+        .loading { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Irongmara ME School<br><span style="font-size: 0.8rem; color: #666;">TC Generation System</span></h2>
+        
+        <div class="file-upload-container">
+            <button onclick="document.getElementById('fileInput').click()">1. Upload Student Excel</button>
+            <input type="file" id="fileInput" accept=".xlsx" onchange="loadExcel(event)">
+        </div>
+
+        <div class="loading" id="spinner">Processing...</div>
+        <div id="statusMessage" class="status"></div>
+
+        <div>
+            <label><strong>2. Select Class:</strong></label>
+            <select id="classSelect" onchange="checkSelection()" disabled>
+                <option value="">-- No File Uploaded --</option>
+            </select>
+        </div>
+
+        <button id="proceedButton" onclick="redirectToBulkTC()" disabled>3. Generate TCs</button>
+    </div>
+
+<script>
+let studentData = [];
+
+function updateStatus(msg, isError = false) {
+    const status = document.getElementById('statusMessage');
+    status.textContent = msg;
+    status.className = 'status ' + (isError ? 'error' : 'success');
+}
+
+function loadExcel(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const spinner = document.getElementById('spinner');
+    spinner.style.display = 'block';
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+            // Get data with original headers to map properly
+            const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+            if (jsonData.length === 0) throw new Error('File is empty.');
+
+            // Normalize headers: remove spaces and lowercase to match TC template
+            studentData = jsonData.map(row => {
+                let cleanRow = {};
+                for (let key in row) {
+                    let cleanKey = key.trim().toLowerCase().replace(/\s+/g, "");
+                    cleanRow[cleanKey] = row[key];
+                }
+                return cleanRow;
+            });
+
+            populateClassDropdown();
+            updateStatus('File loaded! Found ' + studentData.length + ' students.');
+        } catch (error) {
+            updateStatus('Error: ' + error.message, true);
+        } finally {
+            spinner.style.display = 'none';
+        }
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+function populateClassDropdown() {
+    const select = document.getElementById("classSelect");
+    // Looks for 'presentclass' column in your Excel
+    let uniqueClasses = [...new Set(studentData.map(s => s.presentclass).filter(Boolean))].sort();
+    
+    select.innerHTML = '<option value="">-- Choose Class --</option>';
+    uniqueClasses.forEach(cls => {
+        let opt = document.createElement("option");
+        opt.value = cls;
+        opt.textContent = 'Class ' + cls;
+        select.appendChild(opt);
+    });
+    select.disabled = false;
+}
+
+function checkSelection() {
+    document.getElementById("proceedButton").disabled = !document.getElementById("classSelect").value;
+}
+
+function redirectToBulkTC() {
+    const selectedClass = document.getElementById("classSelect").value;
+    const filtered = studentData.filter(s => s.presentclass === selectedClass);
+
+    try {
+        // Save to sessionStorage for the Transfer Certificate page to pick up
+        sessionStorage.setItem("bulkStudents", JSON.stringify(filtered));
+        updateStatus("Redirecting...");
+        setTimeout(() => {
+            // Ensure your TC page is named bulk1.html or change this name
+            window.location.href = "trial.html";
+        }, 800);
+    } catch (e) {
+        updateStatus("Error: Browser storage full.", true);
+    }
+}
+</script>
+</body>
+</html>
