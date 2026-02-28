@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer Certificate - Irongmara ME School</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        /* 1. The @page rule must match your container size exactly */
+        @page { 
+            size: 14in 8.5in; /* Standard Legal Landscape */
+            margin: 0; 
+        }
+
+        body {
+            font-family: "Times New Roman", serif;
+            margin: 0; padding: 0;
+            background-color: #ccc; /* Browser view background */
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 2. Your original container, now calibrated for the screen */
+        .container {
+            width: 13.5in; 
+            height: 8in;
+            padding: 20px 20px 20px 0px; 
+            box-sizing: border-box;
+            display: flex; gap: 20px;
+            margin-left: 1in; /* Your original Binding Gutter */
+            position: relative; overflow: hidden; z-index: 0;
+            background-color: white; /* Paper color */
+            box-shadow: 0 0 20px rgba(0,0,0,0.3); /* Visual guide for browser */
+        }
+
+        /* Watermark - changed to hex for better print reliability */
+        .container::before {
+            content: ""; 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='110' height='14'><text x='0' y='11' font-family='Times New Roman, serif' font-size='12' fill='%23e0e0e0' text-anchor='start'>Irongmara ME School</text></svg>");
+            background-repeat: repeat;
+            pointer-events: none; z-index: -1;
+        }
+
+        .column { padding: 10px; position: relative; z-index: 1; }
+        .small { font-size: 80%; width: 40%; }
+        .large { width: 60%; }
+        
+        h2, h3 { text-align: center; text-transform: uppercase; margin-bottom: 5px; }
+        .sub-info { text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 5px; }
+        .info { margin-bottom: 5px; }
+        .content { text-align: justify; line-height: 2; }
+        
+        .signature {
+            margin-top: 20px;
+            display: flex; justify-content: space-between; align-items: flex-end;
+        }
+
+        .date-place-container {
+            display: flex; flex-direction: column;
+            align-items: flex-start; text-align: left !important;
+        }
+        .date-place-container p { margin: 0; display: flex; align-items: center; gap: 5px; }
+
+        .sig-details { text-align: center; width: 45%; }
+        .sig-details p { margin: 0; line-height: 1.1; }
+
+        .info-row { display: flex; justify-content: space-between; }
+        .divider { width: 2px; background: black; border-left: 2px dotted black; height: auto; }
+
+        .nav-buttons {
+            position: fixed; top: 20px; right: 20px;
+            display: flex; gap: 15px; z-index: 1000;
+        }
+        .nav-buttons button {
+            padding: 8px 16px; background-color: #1e40af; color: white; border: none; border-radius: 6px; cursor: pointer;
+        }
+
+        #mismatchWarning {
+            position: fixed; top: 10px; right: 10px;
+            background-color: orange; color: white; padding: 10px;
+            border-radius: 5px; display: none; z-index: 1000;
+        }
+/* Move the Head Master signature block in the large section */
+.large .sig-details {
+    margin-top: 1cm;     /* Moves it 1 unit down */
+    margin-right: -1cm;  /* Offsets the container to allow right movement */
+    position: relative;
+    left: 0.5cm;           /* Moves it 1 unit right */
+}
+        /* 3. Handling Print Conversion */
+        @media print {
+            body { background: none; }
+            .container {
+                margin: 0 !important;
+                margin-left: 1in !important; /* Preserves binding gutter on paper */
+                box-shadow: none;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .nav-buttons, #mismatchWarning { display: none !important; }
+            input.data-input { display: none; }
+            span.print-span { 
+              
+                display: inline-block; 
+                               line-height: 1; /* Match input height */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="mismatchWarning">Dropdown mismatch detected. Check Excel data.</div>
+    
+    <div class="nav-buttons">
+        <button class="prev-student" onclick="showPreviousStudent()">Previous</button>
+        <button class="next-student" onclick="showNextStudent()">Next</button>
+        <button class="print-button" onclick="prepareForPrint()">Print</button>
+        <button class="pdf-button" onclick="saveAllAsPDF()">Save as PDF</button>
+    </div>
+
+    <div class="container" id="tcContainer">
+        <div class="column small">
+            <h2>Irongmara ME School</h2>
+            <p class="sub-info">P.O.- Irongmara, District- Cachar, Assam<br>U-DISE: 18210307902 | Estd. 1978</p>
+            <div class="info"><strong>Book No.:</strong> <input type="text" class="data-input" data-field="bookno"></div>
+            <div class="info"><strong>SL No.:</strong> <input type="text" class="data-input" data-field="slno"></div>
+<br>
+            <div class="info"><strong>Adm. No.:</strong> <input type="text" class="data-input" data-field="admno"></div>
+            <div class="info"><strong>Unique Id:</strong> <input type="text" class="data-input" data-field="uniqueid"></div>
+            <div class="info"><strong>PEN No.:</strong> <input type="text" class="data-input" data-field="penno"></div>
+            <div class="info"><strong>APAAR ID.:</strong> <input type="text" class="data-input" data-field="apaarid"></div>
+            
+            <h3>Transfer/Leaving Certificate</h3>
+            <p class="content">
+                This is to certify that <input type="text" class="data-input" data-field="studentname">, 
+                <select class="data-input" data-field="relation">
+                    <option value="son of">son of</option>
+                    <option value="daughter of">daughter of</option>
+                </select>
+                <input type="text" class="data-input" data-field="fathername"> and <input type="text" class="data-input" data-field="mothername">, an inhabitant of village <input type="text" class="data-input" data-field="village">, P.O <b>Irongmara</b>, P.S. <b>Dwarbandh</b>, District-<b>Cachar</b> , Assam was a student of class 
+                <select class="data-input" data-field="previousclass"><option value="VI">VI</option><option value="VII">VII</option><option value="VIII">VIII</option></select>.
+                <select class="data-input" data-field="choice1"><option value="He">He</option><option value="She">She</option></select> 
+                <select class="data-input" data-field="choice2"><option value="had">had</option><option value="had not">had not</option></select> passed the final Evaluation/Examination and 
+                <select class="data-input" data-field="choice3"><option value="promoted to">promoted to</option><option value="detained in">detained in</option></select> to class 
+                <select class="data-input" data-field="nextclass"><option value="VI">VI</option><option value="VII">VII</option><option value="VIII">VIII</option><option value="IX">IX</option></select> 
+                & left on <input type="date" class="data-input leftirongmaradate" data-field="leftirongmaradate">. 
+                <select class="data-input" data-field="choice4"><option value="His">His</option><option value="Her">Her</option></select> DOB: <input type="date" class="data-input dob" data-field="dob">.
+            </p>
+<br>
+            <h3>Reason of Leaving</h3>
+            <ul>
+                <li><input type="checkbox" data-field="reason" value="unavoidable change of residence"> Unavoidable change of residence</li>
+                <li><input type="checkbox" data-field="reason" value="completion of school course"> Completion of school course</li>
+                <li><input type="checkbox" data-field="reason" value="ill health"> Ill health</li>
+                <li><input type="checkbox" data-field="reason" value="minor reasons"> Minor reasons</li>
+            </ul>
+<br>
+            <div class="signature">
+                <div class="date-place-container">
+                    <p><strong>Place:</strong><b> Irongmara</b></p>
+                    <p><strong>Date:</strong> <input type="date" class="data-input date2" data-field="date2"></p>
+                </div>
+                <div class="sig-details">
+                    <p><strong>Head Master/Mistress</strong></p>
+                    <p>Irongmara ME School</p>
+                    <p>Cachar, Assam</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="column large">
+            <h2>Irongmara ME School</h2>
+            <p class="sub-info">P.O.- Irongmara, District- Cachar, Assam<br>U-DISE: 18210307902 | Estd. 1978</p>
+            <div class="info-row">
+                <div class="info"><strong>Book No.:</strong> <input type="text" class="data-input" data-field="bookno"></div>
+                <div class="info"><strong>SL No.:</strong> <input type="text" class="data-input" data-field="slno"></div>
+            </div>
+            <div class="info-row">
+                <div class="info"><strong>Adm. No.:</strong> <input type="text" class="data-input" data-field="admno"></div>
+                <div class="info"><strong>Unique Id:</strong> <input type="text" class="data-input" data-field="uniqueid"></div>
+            </div>
+            <div class="info-row">
+                <div class="info"><strong>PEN No.:</strong> <input type="text" class="data-input" data-field="penno"></div>
+                <div class="info"><strong>APAAR ID.:</strong> <input type="text" class="data-input" data-field="apaarid"></div>
+            </div>
+<br>
+            <h3>Transfer/Leaving Certificate</h3>
+            <p class="content">
+                This is to certify that <input type="text" class="data-input" data-field="studentname">, 
+                <select class="data-input" data-field="relation">
+                    <option value="son of">son of</option>
+                    <option value="daughter of">daughter of</option>
+                </select>
+                <input type="text" class="data-input" data-field="fathername"> and <input type="text" class="data-input" data-field="mothername">, an inhabitant of village <input type="text" class="data-input" data-field="village">, P.O <b>Irongmara</b>, P.S. <b>Dwarbandh</b>, District- <b>Cachar</b> , Assam was a student of class 
+                <select class="data-input" data-field="previousclass"><option value="VI">VI</option><option value="VII">VII</option><option value="VIII">VIII</option></select>.
+                <select class="data-input" data-field="choice1"><option value="He">He</option><option value="She">She</option></select> 
+                <select class="data-input" data-field="choice2"><option value="had">had</option><option value="had not">had not</option></select> passed the final Evaluation/Examination and 
+                <select class="data-input" data-field="choice3"><option value="promoted to">promoted to</option><option value="detained in">detained in</option></select> to class 
+                <select class="data-input" data-field="nextclass"><option value="VI">VI</option><option value="VII">VII</option><option value="VIII">VIII</option><option value="IX">IX</option></select> 
+                & left on <input type="date" class="data-input leftirongmaradate" data-field="leftirongmaradate">. 
+                <select class="data-input" data-field="choice4"><option value="His">His</option><option value="Her">Her</option></select> DOB: <input type="date" class="data-input dob" data-field="dob">.
+            </p>
+           
+            <h4>Reason of Leaving</h4>
+            <ul>
+                <li><input type="checkbox" data-field="reason" value="unavoidable change of residence"> Unavoidable change of residence</li>
+                <li><input type="checkbox" data-field="reason" value="completion of school course"> Completion of school course</li>
+                <li><input type="checkbox" data-field="reason" value="ill health"> Ill health</li>
+                <li><input type="checkbox" data-field="reason" value="minor reasons"> Minor reasons</li>
+            </ul>
+            <div class="signature">
+                <div class="date-place-container">
+                    <p><strong>Place:</strong><b> Irongmara</b></p>
+                    <p><strong>Date:</strong> <input type="date" class="data-input date2" data-field="date2"></p>
+                </div>
+                <div class="sig-details">
+                    <p><strong>Head Master/Mistress</strong></p>
+                    <p>Irongmara ME School</p>
+                    <p>Cachar, Assam</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Restored your original script logic exactly as it was
+        let currentIndex = 0;
+        let bulkStudents = JSON.parse(sessionStorage.getItem("bulkStudents") || "[]");
+
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('data-input')) {
+                const fieldName = e.target.getAttribute('data-field');
+                const newValue = e.target.value;
+                document.querySelectorAll(`[data-field="${fieldName}"]`).forEach(input => {
+                    if (input !== e.target) input.value = newValue;
+                });
+            }
+            if (e.target.type === 'checkbox' && e.target.getAttribute('data-field') === 'reason') {
+                const checkValue = e.target.value;
+                const isChecked = e.target.checked;
+                document.querySelectorAll(`input[data-field="reason"][value="${checkValue}"]`).forEach(cb => {
+                    cb.checked = isChecked;
+                });
+            }
+        });
+
+        function updateRelation(genderValue) {
+            if (!genderValue) return;
+            const isFemale = genderValue.toLowerCase() === 'female';
+            document.querySelectorAll('[data-field="relation"]').forEach(s => s.value = isFemale ? "daughter of" : "son of");
+            document.querySelectorAll('[data-field="choice1"]').forEach(s => s.value = isFemale ? "She" : "He");
+            document.querySelectorAll('[data-field="choice4"]').forEach(s => s.value = isFemale ? "Her" : "His");
+        }
+
+        function showStudent(index) {
+            if (index >= 0 && index < bulkStudents.length) {
+                currentIndex = index;
+                populateForm(bulkStudents[currentIndex]);
+                document.querySelector('.prev-student').disabled = currentIndex === 0;
+                document.querySelector('.next-student').disabled = currentIndex === bulkStudents.length - 1;
+            }
+        }
+
+        function showPreviousStudent() { if (currentIndex > 0) showStudent(currentIndex - 1); }
+        function showNextStudent() { if (currentIndex < bulkStudents.length - 1) showStudent(currentIndex + 1); }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return "";
+            try {
+                const date = new Date(typeof dateStr === 'number' ? (dateStr - 25569) * 86400 * 1000 : dateStr);
+                return !isNaN(date.getTime()) ? date.toISOString().split('T')[0] : "";
+            } catch (e) { return ""; }
+        }
+
+        function populateForm(studentData) {
+            let mismatch = false;
+            Object.entries(studentData).forEach(([key, value]) => {
+                const val = (!value || value === "NaN") ? "" : value;
+                const field = key.toLowerCase();
+                document.querySelectorAll(`[data-field="${field}"]`).forEach(input => {
+                    if (input.tagName === 'SELECT') {
+                        if ([...input.options].some(opt => opt.value === val)) input.value = val;
+                        else { input.value = ""; mismatch = true; }
+                    } else if (input.type === 'checkbox') {
+                        const reasons = val.toLowerCase().split(/[,;]/).map(r => r.trim());
+                        input.checked = reasons.some(r => input.value.toLowerCase().includes(r));
+                    } else {
+                        input.value = (input.type === 'date') ? formatDate(val) : val;
+                    }
+                });
+            });
+
+            const gender = studentData.sex || studentData.gender;
+            if (gender) updateRelation(gender);
+
+            ["leftirongmaradate", "date2"].forEach(cls => {
+                if (studentData[cls]) {
+                    document.querySelectorAll(`.${cls}`).forEach(i => i.value = formatDate(studentData[cls]));
+                }
+            });
+
+            document.getElementById('mismatchWarning').style.display = mismatch ? 'block' : 'none';
+        }
+
+        // New helper to turn YYYY-MM-DD into DD-MM-YYYY
+function formatDateForPrint(dateStr) {
+    if (!dateStr || !dateStr.includes('-')) return dateStr;
+    const [year, month, day] = dateStr.split('-');
+    return `${day}-${month}-${year}`;
+}
+
+function prepareForPrint() {
+    // List of fields we want to appear in BOLD on the printed certificate
+    const boldFields = ['studentname', 'fathername', 'mothername', 'dob'];
+
+    document.querySelectorAll(".data-input").forEach(input => {
+        const span = document.createElement("span");
+        span.className = "print-span";
+        
+        const fieldName = input.getAttribute('data-field');
+        
+        // Apply Bold styling if the field is in our list
+        if (boldFields.includes(fieldName)) {
+            span.style.fontWeight = "bold";
+            span.style.textTransform = "uppercase"; // Optional: makes names stand out more
+        }
+
+        let displayValue = "";
+        if (input.tagName === 'SELECT') {
+            displayValue = input.options[input.selectedIndex].text;
+        } else if (input.type === 'date') {
+            displayValue = formatDateForPrint(input.value) || "";
+        } else {
+            displayValue = input.value || "";
+        }
+        
+        span.textContent = displayValue.trim();
+        input.style.display = "none";
+        input.parentNode.insertBefore(span, input);
+    });
+    
+    setTimeout(() => { 
+        window.print(); 
+        restoreAfterPrint(); 
+    }, 150);
+}
+
+        function restoreAfterPrint() {
+            document.querySelectorAll(".print-span").forEach(span => span.remove());
+            document.querySelectorAll(".data-input").forEach(input => input.style.display = "");
+        }
+
+        async function saveAllAsPDF() {
+            const originalIndex = currentIndex;
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({ orientation: 'landscape', unit: 'in', format: 'legal' });
+            for (let i = 0; i < bulkStudents.length; i++) {
+                showStudent(i);
+                await new Promise(r => setTimeout(r, 600));
+                const canvas = await html2canvas(document.getElementById('tcContainer'), { scale: 2, useCORS: true });
+                if (i !== 0) pdf.addPage();
+                pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 14, 8.5);
+            }
+            pdf.save('Irongmara_Bulk_TCs.pdf');
+            showStudent(originalIndex);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => { if (bulkStudents.length > 0) showStudent(0); });
+    </script>
+</body>
+</html>

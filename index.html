@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Irongmara ME School</title>
+
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    scroll-behavior:smooth;
+}
+
+/* ===== TOP HEADER ===== */
+.top-header{
+    background:#002147;
+    color:white;
+    padding:15px 10px 10px 10px;
+    text-align:center;
+    font-size:14px;
+}
+
+.ashok-center{
+    display:flex;
+    justify-content:center;
+}
+
+.ashok-center img{
+    height:40px;
+    background:white;
+    padding:6px;
+    border-radius:50%;
+    box-shadow:0 2px 6px rgba(0,0,0,0.3);
+}
+/* ===== MAIN HEADER ===== */
+.main-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 40px;
+    background:white;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.logo-section{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.school-name{
+    font-size:26px;
+    font-weight:bold;
+    color:#002147;
+}
+
+.tagline{
+    font-size:14px;
+    color:gray;
+}
+
+/* ===== NAVIGATION ===== */
+nav{
+    background:#004aad;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.nav-container{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 30px;
+}
+
+.nav-left{
+    list-style:none;
+    display:flex;
+    margin:0;
+    padding:0;
+}
+
+.nav-left li{
+    position:relative;
+    padding:15px 18px;
+}
+
+.nav-left li a{
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.nav-left li:hover{
+    background:#003580;
+}
+
+/* Dropdown */
+.nav-left li ul{
+    display:none;
+    position:absolute;
+    background:#004aad;
+    top:50px;
+    left:0;
+    min-width:150px;
+    list-style:none;
+    padding:0;
+}
+
+.nav-left li:hover ul{
+    display:block;
+}
+
+.nav-left li ul li{
+    display:block;
+    padding:12px;
+}
+
+/* Login Button */
+.login-btn{
+    background:white;
+    color:#004aad;
+    padding:8px 18px;
+    border-radius:20px;
+    text-decoration:none;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.login-btn:hover{
+    background:#ffc107;
+    color:black;
+}
+/* ===== MARQUEE ===== */
+.marquee{
+    background:#ffc107;
+    padding:8px;
+    font-weight:bold;
+}
+
+.hero{
+    position:relative;
+    background:url('staff.jpg') no-repeat center center;
+    background-size:cover;
+    height:500px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
+}
+
+/* Dark overlay */
+.hero::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.55);
+}
+
+/* Text above overlay */
+.hero-content{
+    position:relative;
+    z-index:2;
+}
+
+.hero h1{
+    font-size:42px;
+    margin:0;
+}
+
+.hero p{
+    font-size:18px;
+    margin-top:10px;
+}
+/* ===== SECTION ===== */
+.section{
+    padding:60px 40px;
+}
+
+.section h2{
+    text-align:center;
+    margin-bottom:30px;
+    color:#002147;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:8px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+/* ===== STATS SECTION ===== */
+.stats{
+    background:#004aad;
+    color:white;
+    display:flex;
+    justify-content:space-around;
+    padding:40px 10px;
+    text-align:center;
+}
+
+.stats div{
+    font-size:20px;
+}
+
+.stats h3{
+    font-size:35px;
+    margin:10px 0;
+}
+
+/* ===== FOOTER ===== */
+footer{
+    background:#002147;
+    color:white;
+    padding:30px 20px;
+    text-align:center;
+}
+
+.footer-content p{
+    margin:5px 0;
+}
+
+.footer-socials{
+    margin-top:15px;
+}
+
+.footer-socials a{
+    display:inline-block;
+    margin:0 10px;
+    font-size:22px;
+    width:45px;
+    height:45px;
+    line-height:45px;
+    border-radius:50%;
+    color:white;
+    transition:0.3s;
+}
+
+/* Individual Colors */
+.whatsapp{
+    background:#25D366;
+}
+
+.youtube{
+    background:#FF0000;
+}
+
+.facebook{
+    background:#1877F2;
+}
+
+.footer-socials a:hover{
+    transform:scale(1.15);
+}
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+    .main-header{
+        flex-direction:column;
+        text-align:center;
+    }
+    .stats{
+        flex-direction:column;
+        gap:20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP HEADER WITH CENTER ASHOK STAMBH -->
+<div class="top-header">
+    <div class="ashok-center">
+        <img src="Ashok Stambh.png" alt="Government of Assam">
+    </div>
+    Department of Elementary Education | Govt. of Assam
+</div>
+
+<!-- MAIN HEADER -->
+<div class="main-header">
+
+    <div class="logo-section">
+<img src="SSA.png" alt="Samagra Shiksha" height="70">
+        <div>
+            <div class="school-name">Irongmara ME School</div>
+            <div class="tagline">Learning is Fun, Creative & Inspiring!</div>
+            <div class="tagline">Nurturing Talents | Building Futures | Caring Community</div>
+        </div>
+    </div>
+
+    
+</div>
+
+<nav>
+    <div class="nav-container">
+        <ul class="nav-left">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li>
+                <a href="#">Academics</a>
+                <ul>
+                    <li><a href="#">Classes</a></li>
+                    <li><a href="#">Curriculum</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Teachers</a></li>
+            <li><a href="#">Gallery</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <a href="login.html" class="login-btn">Login</a>
+        </div>
+    </div>
+</nav>
+
+<!-- MARQUEE -->
+<div class="marquee">
+<marquee>📢 Block Level Scholarship Results Declared | 🏆 Congratulations to our Rank Holders | 📢 Summative Assessment–II/Annual Examination is scheduled on 6th March, 2026 for this session</marquee>
+</div>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Welcome to Irongmara ME School</h1>
+        <p>Providing Quality Education with Discipline & Values</p>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section">
+<h2>About Our School</h2>
+<div class="cards">
+<div class="card">
+<h3>Our Vision</h3>
+<p>To nurture young minds with knowledge, discipline and moral values.</p>
+</div>
+<div class="card">
+<h3>Our Mission</h3>
+<p>To provide inclusive and equitable quality education for all students.</p>
+</div>
+<div class="card">
+<h3>Facilities</h3>
+<p>Qualified Teachers, Digital Learning, Library, Sports & Cultural Activities.</p>
+</div>
+</div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+<div>
+<h3>481</h3>
+Students
+</div>
+<div>
+<h3>11</h3>
+Teachers
+</div>
+<div>
+<h3>3</h3>
+Classes
+</div>
+</section>
+
+<!-- HEADMISTRESS MESSAGE -->
+<section class="section">
+<h2>Headmistress Message</h2>
+<div class="card">
+<p>
+Welcome to Irongmara ME School. We are committed to creating a safe, supportive and inspiring environment where every child grows academically and morally.
+</p>
+<strong>— Headmistress, Irongmara ME School</strong>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+        <p>© 2026 Irongmara ME School | Irongmara, Assam</p>
+        <p>Designed & Maintained by School Administration</p>
+
+        <div class="footer-socials">
+            <a href="https://wa.me/919435371289" class="whatsapp" target="_blank" title="Chat on WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="https://youtube.com" class="youtube" target="_blank" title="Follow on YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://facebook.com" class="facebook" target="_blank" title="Follow on Facebook">
+                <i class="fab fa-facebook"></i>
+            </a>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
