@@ -7,7 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         /* 1. The @page rule must match your container size exactly */
         @page { 
@@ -109,7 +109,14 @@
                                line-height: 1; /* Match input height */
             }
         }
-    </style>
+.qr-box{
+    width:60px;
+    height:60px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-left:35px;
+}    </style>
 </head>
 <body>
     <div id="mismatchWarning">Dropdown mismatch detected. Check Excel data.</div>
@@ -140,16 +147,17 @@
                     <option value="son of">son of</option>
                     <option value="daughter of">daughter of</option>
                 </select>
-                <input type="text" class="data-input" data-field="fathername"> and <input type="text" class="data-input" data-field="mothername">, an inhabitant of village <input type="text" class="data-input" data-field="village">, P.O <b>Irongmara</b>, P.S. <b>Dwarbandh</b>, District-<b>Cachar</b> , Assam was a student of class 
+                <input type="text" class="data-input" data-field="fathername"> and <input type="text" class="data-input" data-field="mothername">, a resident of village <input type="text" class="data-input" data-field="village">, P.O <b>Irongmara</b>, P.S. <b>Dwarbandh</b>, District-<b>Cachar</b> , Assam was a student of class 
                 <select class="data-input" data-field="previousclass"><option value="VI">VI</option><option value="VII">VII</option><option value="VIII">VIII</option></select>.
                 <select class="data-input" data-field="choice1"><option value="He">He</option><option value="She">She</option></select> 
                 <select class="data-input" data-field="choice2"><option value="had">had</option><option value="had not">had not</option></select> passed the final Evaluation/Examination and 
-                <select class="data-input" data-field="choice3"><option value="promoted to">promoted to</option><option value="detained in">detained in</option></select> to class 
+                <select class="data-input" data-field="choice3"><option value="promoted to">promoted to</option><option value="detained in">detained in</option></select> class 
                 <select class="data-input" data-field="nextclass"><option value="VI">VI</option><option value="VII">VII</option><option value="VIII">VIII</option><option value="IX">IX</option></select> 
-                & left on <input type="date" class="data-input leftirongmaradate" data-field="leftirongmaradate">. 
-                <select class="data-input" data-field="choice4"><option value="His">His</option><option value="Her">Her</option></select> DOB: <input type="date" class="data-input dob" data-field="dob">.
+                & left the school on <input type="date" class="data-input leftirongmaradate" data-field="leftirongmaradate">. 
+                <b><select class="data-input" data-field="choice4"><option value="His">His</option><option value="Her">Her</option></select> date of birth as recorded in the Admission Register of the school, is <input type="date" class="data-input dob" data-field="dob">.</b>
+
+
             </p>
-<br>
             <h3>Reason of Leaving</h3>
             <ul>
                 <li><input type="checkbox" data-field="reason" value="unavoidable change of residence"> Unavoidable change of residence</li>
@@ -163,6 +171,7 @@
                     <p><strong>Place:</strong><b> Irongmara</b></p>
                     <p><strong>Date:</strong> <input type="date" class="data-input date2" data-field="date2"></p>
                 </div>
+<div class="qr-box"></div>
                 <div class="sig-details">
                     <p><strong>Head Master/Mistress</strong></p>
                     <p>Irongmara ME School</p>
@@ -196,14 +205,14 @@
                     <option value="son of">son of</option>
                     <option value="daughter of">daughter of</option>
                 </select>
-                <input type="text" class="data-input" data-field="fathername"> and <input type="text" class="data-input" data-field="mothername">, an inhabitant of village <input type="text" class="data-input" data-field="village">, P.O <b>Irongmara</b>, P.S. <b>Dwarbandh</b>, District- <b>Cachar</b> , Assam was a student of class 
+                <input type="text" class="data-input" data-field="fathername"> and <input type="text" class="data-input" data-field="mothername">, a resident of village <input type="text" class="data-input" data-field="village">, P.O <b>Irongmara</b>, P.S. <b>Dwarbandh</b>, District- <b>Cachar</b> , Assam was a student of class 
                 <select class="data-input" data-field="previousclass"><option value="VI">VI</option><option value="VII">VII</option><option value="VIII">VIII</option></select>.
                 <select class="data-input" data-field="choice1"><option value="He">He</option><option value="She">She</option></select> 
                 <select class="data-input" data-field="choice2"><option value="had">had</option><option value="had not">had not</option></select> passed the final Evaluation/Examination and 
-                <select class="data-input" data-field="choice3"><option value="promoted to">promoted to</option><option value="detained in">detained in</option></select> to class 
+                <select class="data-input" data-field="choice3"><option value="promoted to">promoted to</option><option value="detained in">detained in</option></select> class 
                 <select class="data-input" data-field="nextclass"><option value="VI">VI</option><option value="VII">VII</option><option value="VIII">VIII</option><option value="IX">IX</option></select> 
-                & left on <input type="date" class="data-input leftirongmaradate" data-field="leftirongmaradate">. 
-                <select class="data-input" data-field="choice4"><option value="His">His</option><option value="Her">Her</option></select> DOB: <input type="date" class="data-input dob" data-field="dob">.
+                & left the school on <input type="date" class="data-input leftirongmaradate" data-field="leftirongmaradate">. 
+                <b><select class="data-input" data-field="choice4"><option value="His">His</option><option value="Her">Her</option></select> date of birth as recorded in the Admission Register of the school, is <input type="date" class="data-input dob" data-field="dob">.</b>
             </p>
            
             <h4>Reason of Leaving</h4>
@@ -218,6 +227,7 @@
                     <p><strong>Place:</strong><b> Irongmara</b></p>
                     <p><strong>Date:</strong> <input type="date" class="data-input date2" data-field="date2"></p>
                 </div>
+<div class="qr-box"></div>
                 <div class="sig-details">
                     <p><strong>Head Master/Mistress</strong></p>
                     <p>Irongmara ME School</p>
@@ -228,6 +238,7 @@
     </div>
 
     <script>
+const SECRET_KEY = "IrongmaraMES1978";
         // Restored your original script logic exactly as it was
         let currentIndex = 0;
         let bulkStudents = JSON.parse(sessionStorage.getItem("bulkStudents") || "[]");
@@ -276,6 +287,20 @@
                 return !isNaN(date.getTime()) ? date.toISOString().split('T')[0] : "";
             } catch (e) { return ""; }
         }
+async function generateSecureHash(data) {
+
+    const encoder = new TextEncoder();
+    const encoded = encoder.encode(data + SECRET_KEY);
+
+    const buffer = await crypto.subtle.digest("SHA-256", encoded);
+
+    const hashArray = Array.from(new Uint8Array(buffer));
+
+    return hashArray
+        .map(b => b.toString(16).padStart(2,"0"))
+        .join("")
+        .substring(0,16);   // shorter signature
+}
 
         function populateForm(studentData) {
             let mismatch = false;
@@ -305,6 +330,31 @@
             });
 
             document.getElementById('mismatchWarning').style.display = mismatch ? 'block' : 'none';
+// Generate QR code
+document.querySelectorAll(".qr-box").forEach(async box => {
+
+    box.innerHTML = "";
+
+    const baseData =
+        "BOOK:" + (studentData.bookno || "") +
+        "|TC:" + (studentData.slno || "") +
+        "|ADM:" + (studentData.admno || "") +
+        "|NAME:" + (studentData.studentname || "");
+
+    const signature = await generateSecureHash(baseData);
+
+    const qrText =
+        "Irongmara ME School\n" +
+        baseData +
+        "\nSIGN:" + signature;
+
+    new QRCode(box,{
+        text: qrText,
+        width:60,
+        height:60
+    });
+
+});
         }
 
         // New helper to turn YYYY-MM-DD into DD-MM-YYYY
@@ -313,6 +363,7 @@ function formatDateForPrint(dateStr) {
     const [year, month, day] = dateStr.split('-');
     return `${day}-${month}-${year}`;
 }
+
 
 function prepareForPrint() {
     // List of fields we want to appear in BOLD on the printed certificate
@@ -355,20 +406,69 @@ function prepareForPrint() {
             document.querySelectorAll(".data-input").forEach(input => input.style.display = "");
         }
 
-        async function saveAllAsPDF() {
-            const originalIndex = currentIndex;
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF({ orientation: 'landscape', unit: 'in', format: 'legal' });
-            for (let i = 0; i < bulkStudents.length; i++) {
-                showStudent(i);
-                await new Promise(r => setTimeout(r, 600));
-                const canvas = await html2canvas(document.getElementById('tcContainer'), { scale: 2, useCORS: true });
-                if (i !== 0) pdf.addPage();
-                pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 14, 8.5);
-            }
-            pdf.save('Irongmara_Bulk_TCs.pdf');
-            showStudent(originalIndex);
-        }
+   async function saveAllAsPDF() {
+    const originalIndex = currentIndex;
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: 'landscape', unit: 'in', format: 'legal' });
+
+    for (let i = 0; i < bulkStudents.length; i++) {
+        showStudent(i);
+        await new Promise(r => setTimeout(r, 200));
+
+        document.querySelectorAll('.data-input').forEach(i => {
+    i.dataset.oldWidth = i.style.width;
+    i.dataset.oldPadding = i.style.padding;
+
+    i.style.border = "none";
+    i.style.background = "transparent";
+    i.style.width = "auto";
+    i.style.padding = "0";
+});
+
+        // convert inputs to spans like print
+document.querySelectorAll(".data-input").forEach(input => {
+    const span = document.createElement("span");
+    span.className = "print-span";
+
+    let value = "";
+
+    if (input.tagName === 'SELECT') {
+        value = input.options[input.selectedIndex].text;
+    } else if (input.type === 'date') {
+        value = formatDateForPrint(input.value) || "";
+    } else {
+        value = input.value || "";
+    }
+
+    span.textContent = value;
+    input.style.display = "none";
+    input.parentNode.insertBefore(span, input);
+});
+
+const canvas = await html2canvas(
+    document.getElementById('tcContainer'),
+    { scale: 2, useCORS: true }
+);
+
+// restore inputs
+document.querySelectorAll(".print-span").forEach(span => span.remove());
+document.querySelectorAll(".data-input").forEach(input => input.style.display = "");
+
+        document.querySelectorAll('.data-input').forEach(i => {
+    i.style.border = "";
+    i.style.background = "";
+    i.style.width = i.dataset.oldWidth || "";
+    i.style.padding = i.dataset.oldPadding || "";
+});
+
+        if (i !== 0) pdf.addPage();
+
+        pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 1, 0.02, 13, 8.5);
+    }
+
+    pdf.save(`Irongmara_MES_TCs_${new Date().toISOString().slice(0,10)}.pdf`);
+    showStudent(originalIndex);
+}
 
         document.addEventListener("DOMContentLoaded", () => { if (bulkStudents.length > 0) showStudent(0); });
     </script>
