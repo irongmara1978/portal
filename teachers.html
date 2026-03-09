@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Teachers | Irongmara ME School</title>
+
+<style>
+
+/* BODY */
+
+body{
+margin:0;
+font-family:'Segoe UI',Arial;
+background:linear-gradient(-45deg,#eef2f7,#d9e4f5,#ffffff,#e7eefc);
+background-size:400% 400%;
+animation:gradientMove 12s ease infinite;
+}
+
+/* ANIMATED BACKGROUND */
+
+@keyframes gradientMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* HEADER */
+
+.header{
+background:linear-gradient(135deg,#002147,#004aad);
+color:white;
+text-align:center;
+padding:60px 20px;
+animation:fadeDown 1s ease;
+}
+
+.header h1{
+margin:0;
+font-size:38px;
+letter-spacing:1px;
+}
+
+/* CONTAINER */
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:50px 20px;
+}
+
+/* HEADMISTRESS */
+
+.headmistress{
+display:flex;
+align-items:center;
+gap:30px;
+background:rgba(255,255,255,0.6);
+backdrop-filter:blur(10px);
+padding:30px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+margin-bottom:50px;
+border-left:6px solid #004aad;
+animation:fadeUp 1.2s ease;
+}
+
+.headmistress img{
+width:150px;
+height:150px;
+border-radius:50%;
+object-fit:cover;
+border:5px solid #004aad;
+}
+
+.headmistress h2{
+margin:0;
+color:#004aad;
+}
+
+.badge{
+background:#004aad;
+color:white;
+padding:5px 12px;
+border-radius:20px;
+font-size:12px;
+display:inline-block;
+margin-bottom:8px;
+}
+
+/* GRID */
+
+.teacher-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+/* CARD */
+
+.teacher-card{
+background:rgba(255,255,255,0.7);
+backdrop-filter:blur(8px);
+padding:25px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 6px 20px rgba(0,0,0,0.1);
+transition:all .35s;
+animation:fadeUp 1.3s ease;
+}
+
+.teacher-card:hover{
+transform:translateY(-10px) scale(1.03);
+box-shadow:0 15px 35px rgba(0,0,0,0.2);
+}
+
+.teacher-card img{
+width:110px;
+height:110px;
+border-radius:50%;
+object-fit:cover;
+border:4px solid #004aad;
+margin-bottom:15px;
+}
+
+.teacher-card h3{
+margin:8px 0;
+color:#004aad;
+}
+
+.teacher-card p{
+margin:4px 0;
+font-size:14px;
+}
+
+/* ANIMATIONS */
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes fadeDown{
+from{
+opacity:0;
+transform:translateY(-40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* BUTTON */
+
+.back{
+text-align:center;
+margin-top:50px;
+}
+
+.back a{
+background:#004aad;
+color:white;
+padding:12px 24px;
+border-radius:6px;
+text-decoration:none;
+font-size:15px;
+transition:.3s;
+}
+
+.back a:hover{
+background:#002147;
+}
+
+/* FOOTER */
+
+footer{
+background:#002147;
+color:white;
+text-align:center;
+padding:20px;
+margin-top:50px;
+}
+
+</style></head>
+
+<body>
+
+<div class="header">
+<h1>Our Teachers</h1>
+<p>Irongmara ME School</p>
+</div>
+
+<div class="container">
+
+<!-- HEADMISTRESS -->
+
+<div class="headmistress">
+
+<img src="teachers/mridula.jpg">
+
+<div>
+<span class="badge">Headmistress</span>
+<h2>MRIDULA BHATTACHARJEE</h2>
+<p><strong>Designation:</strong> Assistant Teacher (Headmistress i/c)</p>
+<p><strong>Qualification:</strong> Graduation (B.A.)</p>
+</div>
+
+</div>
+
+<!-- TEACHERS -->
+
+<div class="teacher-grid">
+
+<div class="teacher-card">
+<img src="teachers/baishakhi.jpg">
+<h3>BAISHAKHI DUTTA</h3>
+<p>Assistant Teacher</p>
+<p>Qualification: Post-Graduation (Mathematics), B.Ed</p>
+</div>
+
+<div class="teacher-card">
+<img src="teachers/kakali.jpg">
+<h3>KAKALI PAUL</h3>
+<p>Assistant Teacher</p>
+<p>Qualification: Post-Graduation (Economics), D.El.Ed</p>
+</div>
+
+<div class="teacher-card">
+<img src="teachers/manna.jpg">
+<h3>MANNA NATH</h3>
+<p>Assistant Teacher</p>
+<p>Qualification: Graduation (Arts), D.El.Ed</p>
+</div>
+
+<div class="teacher-card">
+<img src="teachers/amit.jpg">
+<h3>TH AMIT KUMAR SINGHA</h3>
+<p>Assistant Teacher</p>
+<p>Qualification: Higher Secondary, D.El.Ed</p>
+</div>
+
+<div class="teacher-card">
+<img src="teachers/bharati.jpg">
+<h3>BHARATI DEVI</h3>
+<p>Science Teacher</p>
+<p>Qualification: Post-Graduation (Biology), B.Ed</p>
+</div>
+
+<div class="teacher-card">
+<img src="teachers/rambrata.jpg">
+<h3>RAMBRATA NUNIA</h3>
+<p>Assistant Teacher</p>
+<p>Qualification: Higher Secondary</p>
+</div>
+
+<div class="teacher-card">
+<img src="teachers/sangita.jpg">
+<h3>SANGITA PAUL</h3>
+<p>Assistant Teacher</p>
+<p>Qualification: Post-Graduation (Physics), B.Ed</p>
+</div>
+
+<div class="teacher-card">
+<img src="teachers/biprajit.jpeg">
+<h3>BIPRAJIT GOSWAMI</h3>
+<p>Assistant Teacher</p>
+<p>Qualification: Post-Graduation (Computer Science & Application), D.El.Ed</p>
+</div>
+
+<div class="teacher-card">
+<img src="teachers/sudipa.jpg">
+<h3>SUDIPA SEN</h3>
+<p>Assistant Teacher</p>
+<p>Qualification: Graduation (Science), B.Ed</p>
+</div>
+
+<div class="teacher-card">
+<img src="teachers/suvodeep.jpg">
+<h3>SUVODEEP PAUL</h3>
+<p>Assistant Teacher</p>
+<p>Qualification: Graduation (Science), D.El.Ed</p>
+</div>
+
+</div>
+
+<div class="back">
+<a href="index.html">← Back to Home</a>
+</div>
+
+</div>
+
+<footer>
+© 2026 Irongmara ME School | Irongmara, Assam
+</footer>
+
+</body>
+</html>
