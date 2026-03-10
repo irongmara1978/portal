@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Marks Entry Module | Irongmara ME School</title>
+
+<style>
+
+body{
+margin:0;
+font-family:'Segoe UI', Arial;
+background:linear-gradient(135deg,#eef2f7,#d9e4f5);
+}
+
+/* HEADER */
+
+.header{
+background:#002147;
+color:white;
+padding:18px 30px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.header h2{
+margin:0;
+font-weight:600;
+}
+
+.teacher-info{
+font-size:14px;
+}
+
+.teacher-info a{
+color:#ffb3b3;
+text-decoration:none;
+margin-left:10px;
+font-weight:bold;
+}
+
+/* MAIN CONTAINER */
+
+.container{
+max-width:700px;
+margin:40px auto;
+background:white;
+padding:35px;
+border-radius:10px;
+box-shadow:0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* TITLE */
+
+.page-title{
+text-align:center;
+color:#002147;
+margin-bottom:30px;
+}
+
+/* FORM GRID */
+
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.form-group{
+display:flex;
+flex-direction:column;
+}
+
+label{
+font-size:14px;
+margin-bottom:6px;
+font-weight:600;
+color:#444;
+}
+
+select,input{
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc;
+font-size:14px;
+}
+
+/* FULL WIDTH */
+
+.full{
+grid-column:span 2;
+}
+
+/* BUTTON */
+
+button{
+margin-top:25px;
+padding:12px;
+background:#f37021;
+border:none;
+color:white;
+font-weight:bold;
+border-radius:6px;
+cursor:pointer;
+font-size:15px;
+}
+
+button:hover{
+background:#d65a12;
+}
+
+/* FOOTER */
+
+.footer{
+text-align:center;
+margin-top:25px;
+font-size:13px;
+color:#777;
+}
+
+.btn-area{
+text-align:center;
+margin-top:30px;
+}
+
+.btn-area button{
+width:200px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<div class="header">
+
+<h2>IRONGMARA ME SCHOOL</h2>
+
+<div class="teacher-info">
+Welcome, <span id="teacherDisplay"></span>
+<a href="#" onclick="logout()">Logout</a>
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="container">
+
+<h3 class="page-title">Marks Entry Module</h3>
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Academic Session</label>
+<select id="academicSession"></select>
+</div>
+
+<div class="form-group">
+<label>Select Examination</label>
+<select id="exam">
+<option>Formative Assessment I</option>
+<option>Summative Assessment I</option>
+<option>Formative Assessment II</option>
+<option>Summative Assessment II</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Select Class</label>
+<select id="class">
+<option>Class VI A</option>
+<option>Class VI B</option>
+<option>Class VII A</option>
+<option>Class VII B</option>
+<option>Class VIII A</option>
+<option>Class VIII B</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Select Subject</label>
+<select id="subject">
+<option>Bengali</option>
+<option>English</option>
+<option>Hindi</option>
+<option>Mathematics</option>
+<option>Science</option>
+<option>Social Science</option>
+</select>
+</div>
+
+<div class="form-group full">
+<label>Teacher Name</label>
+<input type="text" id="teacher" readonly>
+</div>
+
+</div>
+
+<div class="btn-area">
+<button onclick="proceed()">Proceed</button>
+</div>
+
+<div class="footer">
+Irongmara ME School Digital Academic Portal
+</div>
+
+</div>
+
+
+<script>
+
+/* SESSION CHECK */
+
+var teacher = sessionStorage.getItem("teacherName");
+
+if(!teacher){
+window.location.href="login.html";
+}
+
+document.getElementById("teacherDisplay").innerText = teacher;
+document.getElementById("teacher").value = teacher;
+
+
+/* CURRENT ACADEMIC SESSION */
+
+var dropdown = document.getElementById("academicSession");
+
+var today = new Date();
+var year = today.getFullYear();
+var month = today.getMonth()+1;
+
+var startYear;
+
+if(month>=4){
+startYear=year;
+}else{
+startYear=year-1;
+}
+
+var endYear=(startYear+1).toString().slice(-2);
+
+var option=document.createElement("option");
+option.text=startYear+"-"+endYear;
+
+dropdown.add(option);
+
+
+/* LOGOUT */
+
+function logout(){
+sessionStorage.clear();
+window.location.href="login.html";
+}
+
+function proceed(){
+
+var session=document.getElementById("academicSession").value;
+var exam=document.getElementById("exam").value;
+var className=document.getElementById("class").value;
+var subject=document.getElementById("subject").value;
+
+window.location.href=
+"marks_table.html?session="+session+
+"&exam="+exam+
+"&class="+className+
+"&subject="+subject;
+
+}
+
+</script>
+
+</body>
+</html>
