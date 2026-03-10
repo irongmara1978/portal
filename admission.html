@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admission Form | Irongmara ME School</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+--primary:#1e293b;
+--accent:#2563eb;
+--error:#dc2626;
+--bg-gradient:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);
+--card-bg:#ffffff;
+--text-main:#334155;
+--border-color:#e2e8f0;
+}
+
+*{box-sizing:border-box;transition:all .2s ease-in-out;}
+
+body{
+margin:0;
+font-family:'Inter',sans-serif;
+background:var(--bg-gradient);
+color:var(--text-main);
+padding:40px 20px;
+}
+
+.container{
+max-width:950px;
+margin:auto;
+background:var(--card-bg);
+border-radius:16px;
+box-shadow:0 20px 25px -5px rgba(0,0,0,0.1);
+overflow:hidden;
+border:1px solid white;
+}
+
+.header{
+background:var(--primary);
+color:white;
+padding:40px;
+display:flex;
+align-items:center;
+gap:30px;
+}
+
+.photo-box{
+width:130px;
+height:150px;
+background:rgba(255,255,255,0.1);
+border:2px dashed rgba(255,255,255,0.3);
+border-radius:12px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+position:relative;
+overflow:hidden;
+}
+
+.photo-box.missing{
+border-color:var(--error);
+background:rgba(220,38,38,0.1);
+}
+
+#preview{
+width:100%;
+height:100%;
+object-fit:cover;
+display:none;
+}
+
+.school-info h1{
+margin:0;
+font-size:26px;
+}
+
+.session-badge{
+display:inline-block;
+background:var(--accent);
+padding:4px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:700;
+margin-top:8px;
+text-transform:uppercase;
+}
+
+.form-section{
+padding:40px;
+}
+
+.section-header{
+display:flex;
+align-items:center;
+margin:35px 0 20px;
+}
+
+.section-header:first-child{
+margin-top:0;
+}
+
+.section-title{
+font-size:13px;
+font-weight:600;
+color:var(--accent);
+text-transform:uppercase;
+letter-spacing:1.2px;
+margin-right:15px;
+}
+
+.section-line{
+height:1px;
+background:var(--border-color);
+flex:1;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:repeat(12,1fr);
+gap:18px;
+}
+
+.col-4{grid-column:span 4;}
+.col-6{grid-column:span 6;}
+.col-8{grid-column:span 8;}
+.col-12{grid-column:span 12;}
+
+label{
+font-weight:500;
+font-size:13px;
+margin-bottom:6px;
+display:block;
+}
+
+label::after{
+content:" *";
+color:var(--error);
+}
+
+input,select,textarea{
+width:100%;
+padding:12px;
+border-radius:8px;
+border:1px solid var(--border-color);
+background:#fcfcfc;
+font-size:14px;
+}
+
+input:focus,select:focus,textarea:focus{
+outline:none;
+border-color:var(--accent);
+box-shadow:0 0 0 4px rgba(37,99,235,0.1);
+}
+
+.btn-container{
+margin-top:40px;
+padding-top:30px;
+border-top:1px solid var(--border-color);
+text-align:right;
+}
+
+.btn-primary{
+background:var(--accent);
+color:white;
+padding:14px 50px;
+border-radius:8px;
+border:none;
+font-weight:600;
+cursor:pointer;
+font-size:15px;
+}
+
+.btn-primary:disabled{
+background:#94a3b8;
+cursor:not-allowed;
+}
+
+@media(max-width:768px){
+.col-4,.col-6,.col-8{grid-column:span 12;}
+.header{flex-direction:column;text-align:center;}
+}
+
+#studentTable th,
+#studentTable td{
+border:1px solid #cbd5e1;
+padding:10px;
+text-align:left;
+font-size:14px;
+}
+
+#studentTable tr:nth-child(even){
+background:#f8fafc;
+}
+
+#studentTable tr:hover{
+background:#e2e8f0;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header class="header">
+
+<div class="photo-box" onclick="document.getElementById('photoUpload').click();">
+
+<div id="photoPlaceholder" style="text-align:center;color:white;font-size:11px;">
+
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom:8px">
+<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+<circle cx="12" cy="13" r="4"></circle>
+</svg>
+
+<br><strong>UPLOAD PHOTO</strong>
+
+</div>
+
+<input type="file" id="photoUpload" accept="image/*" capture="environment" style="display:none">
+
+<img id="preview">
+
+</div>
+
+<div class="school-info">
+
+<h1>Irongmara ME School</h1>
+
+<div class="session-badge">Session 2026-27</div>
+
+<p style="margin:8px 0 0;opacity:0.8;font-size:14px;">
+All fields are mandatory for admission processing.
+</p>
+
+</div>
+
+</header>
+
+
+<form class="form-section" id="admissionForm">
+
+<!-- hidden teacher field -->
+<input type="hidden" id="submittedBy">
+
+<div class="section-header">
+<span class="section-title">Student Information</span>
+<div class="section-line"></div>
+</div>
+
+<div class="form-grid">
+
+<div class="col-8">
+<label>Student's Full Name</label>
+<input type="text" id="studentName" required>
+</div>
+
+<div class="col-4">
+<label>Sex</label>
+<select id="sex" required>
+<option value="">Select</option>
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="col-4">
+<label>Date of Birth</label>
+<input type="date" id="dob" required>
+</div>
+
+<div class="col-4">
+<label>Class Seeking Admission</label>
+<select id="className" required>
+<option value="">Select Class</option>
+<option>VI</option>
+<option>VII</option>
+<option>VIII</option>
+</select>
+</div>
+
+<div class="col-4">
+<label>PEN Number</label>
+<input type="text" id="pen" required>
+</div>
+
+<div class="col-4">
+<label>Unique ID</label>
+<input type="text" id="uniqueID" required>
+</div>
+
+<div class="col-4">
+<label>APAAR ID</label>
+<input type="text" id="apaar" required>
+</div>
+
+<div class="col-4">
+<label>Student Aadhaar Number</label>
+<input type="text" id="studentAadhaar" required pattern="\d{12}">
+</div>
+
+</div>
+
+
+<div class="section-header">
+<span class="section-title">Parental Details</span>
+<div class="section-line"></div>
+</div>
+
+<div class="form-grid">
+
+<div class="col-6">
+<label>Father's Name</label>
+<input type="text" id="father" required>
+</div>
+
+<div class="col-6">
+<label>Mother's Name</label>
+<input type="text" id="mother" required>
+</div>
+
+<div class="col-6">
+<label>Parent/Guardian Aadhaar</label>
+<input type="text" id="guardianAadhaar" required pattern="\d{12}">
+</div>
+
+<div class="col-6">
+<label>Contact Phone Number</label>
+<input type="tel" id="phone" required pattern="[0-9]{10}">
+</div>
+
+</div>
+
+
+<div class="section-header">
+<span class="section-title">Address & History</span>
+<div class="section-line"></div>
+</div>
+
+<div class="form-grid">
+
+<div class="col-12">
+<label>Full Residential Address</label>
+<textarea id="address" rows="3" required></textarea>
+</div>
+
+<div class="col-12">
+<label>UDISE Code of Previous School</label>
+<input type="text" id="udise" required>
+</div>
+
+<div class="col-12">
+<label>Remarks (If there are any kind of mismatch in documents)</label>
+<input type="text" id="remarks">
+</div>
+
+</div>
+
+
+<div class="btn-container">
+<button type="submit" class="btn-primary" id="submitBtn">
+Submit Admission Form
+</button>
+</div>
+<div style="margin-top:40px">
+
+<h3>Students Entered in This Session</h3>
+
+<table id="studentTable" style="width:100%;border-collapse:collapse;border:1px solid #ccc">
+
+<thead>
+<tr style="background:#1e293b;color:white">
+<th>Sl No</th>
+<th>Admission No</th>
+<th>Student Name</th>
+<th>Class</th>
+<th>Father</th>
+<th>Phone</th>
+<th>Entered By</th>
+</tr>
+</thead>
+
+<tbody></tbody>
+
+</table>
+
+</div>
+</form>
+
+</div>
+
+
+<script>
+
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbzOUgZwucZb82poYLi___OIdbyz1Sv_g0Sdnkew-EmjySOrBxFkHogZTVagwQBmA138/exec";
+
+document.addEventListener("DOMContentLoaded",function(){
+
+var teacher=sessionStorage.getItem("teacherName");
+
+if(!teacher){
+alert("Session expired. Please login again.");
+window.location.href="login.html";
+}
+
+document.getElementById("submittedBy").value=teacher;
+
+loadStudentList();
+
+});
+
+
+document.getElementById('admissionForm').addEventListener('submit',function(e){
+
+e.preventDefault();
+
+const btn=document.getElementById('submitBtn');
+
+btn.innerText="Submitting...";
+btn.disabled=true;
+
+const formData=new URLSearchParams();
+
+formData.append("session","2026-27");
+formData.append("submittedBy",document.getElementById("submittedBy").value);
+formData.append("studentName",document.getElementById("studentName").value);
+formData.append("sex",document.getElementById("sex").value);
+formData.append("dob",document.getElementById("dob").value);
+formData.append("className",document.getElementById("className").value);
+formData.append("pen",document.getElementById("pen").value);
+formData.append("uniqueID",document.getElementById("uniqueID").value);
+formData.append("apaar",document.getElementById("apaar").value);
+formData.append("studentAadhaar",document.getElementById("studentAadhaar").value);
+formData.append("father",document.getElementById("father").value);
+formData.append("mother",document.getElementById("mother").value);
+formData.append("guardianAadhaar",document.getElementById("guardianAadhaar").value);
+formData.append("phone",document.getElementById("phone").value);
+formData.append("address",document.getElementById("address").value);
+formData.append("udise",document.getElementById("udise").value);
+formData.append("remarks",document.getElementById("remarks").value);
+
+fetch(SCRIPT_URL,{
+method:'POST',
+body:formData
+})
+
+.then(response => response.text())
+
+.then(data => {
+
+if(data === "duplicate"){
+
+alert("This Aadhaar number has already been entered for this session.");
+
+btn.disabled=false;
+btn.innerText="Submit Admission Form";
+
+return;
+}
+
+alert("Application Submitted Successfully!");
+
+document.getElementById("admissionForm").reset();
+
+btn.disabled=false;
+btn.innerText="Submit Admission Form";
+
+loadStudentList();
+
+})
+
+.catch(error => {
+
+console.error(error);
+
+alert("Submission failed");
+
+btn.disabled=false;
+
+});
+
+});
+
+
+function loadStudentList(){
+
+const year = new Date().getFullYear();
+const session = year + "-" + (year+1);
+
+fetch(SCRIPT_URL + "?session=" + session)
+
+.then(res => res.json())
+
+.then(data => {
+
+const tbody = document.querySelector("#studentTable tbody");
+
+tbody.innerHTML="";
+
+data.reverse();
+
+data.forEach((row,index)=>{
+
+const tr=document.createElement("tr");
+
+tr.innerHTML=`
+<td>${index+1}</td>
+<td>${row[1] || ""}</td>
+<td>${row[3] || ""}</td>
+<td>${row[6] || ""}</td>
+<td>${row[11] || ""}</td>
+<td>${row[14] || ""}</td>
+<td>${row[18] || ""}</td>
+`;
+
+tbody.appendChild(tr);
+
+});
+
+})
+
+.catch(err=>console.error(err));
+
+}
+
+</script>
+
+</body>
+</html>
