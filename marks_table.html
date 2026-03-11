@@ -2,281 +2,365 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marks Entry Table | Irongmara ME School</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial;
+            background: linear-gradient(135deg, #eef2f7, #d9e4f5);
+        }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        /* HEADER */
+        .header {
+            background: #002147;
+            color: white;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
 
-<title>Marks Entry Table | Irongmara ME School</title>
+        .teacher-info {
+            font-size: 14px;
+        }
 
-<style>
+        .teacher-info a {
+            color: #ffb3b3;
+            text-decoration: none;
+            margin-left: 10px;
+            font-weight: bold;
+        }
 
-body{
-margin:0;
-font-family:'Segoe UI',Arial;
-background:linear-gradient(135deg,#eef2f7,#d9e4f5);
-}
+        /* MAIN CARD */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
 
-/* HEADER */
+        /* SEARCH BAR */
+        .search-area {
+            margin-bottom: 20px;
+        }
 
-.header{
-background:#002147;
-color:white;
-padding:18px 25px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-}
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #002147;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
 
-.teacher-info{
-font-size:14px;
-}
+        /* DETAILS */
+        .details {
+            margin-bottom: 20px;
+            font-size: 15px;
+            color: #333;
+            line-height: 1.7;
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 5px solid #f37021;
+        }
 
-.teacher-info a{
-color:#ffb3b3;
-text-decoration:none;
-margin-left:10px;
-font-weight:bold;
-}
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-/* MAIN CARD */
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
 
-.container{
-max-width:1000px;
-margin:40px auto;
-background:white;
-padding:30px;
-border-radius:10px;
-box-shadow:0 8px 25px rgba(0,0,0,0.15);
-}
+        th {
+            background: #002147;
+            color: white;
+            position: sticky;
+            top: 0;
+        }
 
-/* DETAILS */
+        /* INTERACTIVE HIGHLIGHTING */
+        tr:hover {
+            background-color: #f1f7ff;
+        }
 
-.details{
-margin-bottom:20px;
-font-size:15px;
-color:#333;
-line-height:1.7;
-}
+        .active-row {
+            background-color: #e3f2fd !important;
+            border: 2px solid #2196f3;
+        }
 
-/* TABLE */
+        input.marks {
+            width: 80px;
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
 
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-}
+        input.marks:focus {
+            border-color: #f37021;
+            outline: none;
+            background: #fffdfa;
+        }
 
-th,td{
-border:1px solid #ccc;
-padding:8px;
-text-align:center;
-}
+        /* BUTTONS */
+        .btn-area {
+            text-align: center;
+            margin-top: 25px;
+        }
 
-th{
-background:#002147;
-color:white;
-}
+        button {
+            padding: 12px 30px;
+            background: #f37021;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
 
-input{
-width:70px;
-padding:6px;
-text-align:center;
-border:1px solid #ccc;
-border-radius:4px;
-}
+        button:hover {
+            background: #d65a12;
+        }
 
-/* BUTTON */
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
 
-.btn-area{
-text-align:center;
-margin-top:25px;
-}
+        .editBtn {
+            padding: 5px 10px;
+            margin-left: 5px;
+            font-size: 12px;
+            background: #002147;
+        }
 
-button{
-padding:12px 30px;
-background:#f37021;
-border:none;
-color:white;
-font-weight:bold;
-border-radius:6px;
-cursor:pointer;
-}
-
-button:hover{
-background:#d65a12;
-}
-
-/* MOBILE */
-
-@media(max-width:700px){
-
-.container{
-margin:20px;
-padding:20px;
-}
-
-table{
-font-size:13px;
-}
-
-}
-
-</style>
-
+        /* MOBILE */
+        @media(max-width:700px) {
+            .container { margin: 10px; padding: 20px; }
+            table { font-size: 13px; }
+            input.marks { width: 60px; }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="header">
+    <div class="header">
+        <h2>IRONGMARA ME SCHOOL</h2>
+        <div class="teacher-info">
+            Welcome, <span id="teacherDisplay"></span> |
+            <a href="#" onclick="logout()">Logout</a>
+        </div>
+    </div>
 
-<h2>IRONGMARA ME SCHOOL</h2>
+    <div class="container">
+        <h3>Marks Entry Portal</h3>
 
-<div class="teacher-info">
-Welcome, <span id="teacherDisplay"></span> |
-<a href="#" onclick="logout()">Logout</a>
-</div>
+        <div class="details">
+            <strong>Session:</strong> <span id="session"></span> |
+            <strong>Exam:</strong> <span id="exam"></span> |
+            <strong>Class:</strong> <span id="class"></span> |
+            <strong>Subject:</strong> <span id="subject"></span>
+        </div>
 
-</div>
+        <div class="search-area">
+            <input type="text" id="searchInput" placeholder="Search by Student Name or Roll No..." onkeyup="filterTable()">
+        </div>
 
+        <table>
+            <thead>
+                <tr>
+                    <th>Adm No</th>
+                    <th>Roll No</th>
+                    <th>Student Name</th>
+                    <th>Marks</th>
+                </tr>
+            </thead>
+            <tbody id="studentTable"></tbody>
+        </table>
 
-<div class="container">
+        <div class="btn-area">
+            <button id="saveBtn" onclick="saveMarks()">Save All Marks</button>
+        </div>
+    </div>
 
-<h3>Marks Entry</h3>
+    <script>
+        var teacher = sessionStorage.getItem("teacherName");
+        if (!teacher) { window.location.href = "login.html"; }
+        document.getElementById("teacherDisplay").innerText = teacher;
 
-<div class="details">
+        function logout() { sessionStorage.clear(); window.location.href = "login.html"; }
 
-<strong>Academic Session:</strong> <span id="session"></span><br>
-<strong>Examination:</strong> <span id="exam"></span><br>
-<strong>Class:</strong> <span id="class"></span><br>
-<strong>Subject:</strong> <span id="subject"></span>
+        var params = new URLSearchParams(window.location.search);
+        var className = params.get("class");
+        var scriptURL = "https://script.google.com/macros/s/AKfycbzSEZUjwWCaYZUVHuIPESw-mzfFu2A6rSHgh6bJmKIMNi0OfjfwT-AWRbBGMij8uiNY8w/exec";
 
-</div>
+        document.getElementById("session").innerText = params.get("session");
+        document.getElementById("exam").innerText = params.get("exam");
+        document.getElementById("class").innerText = className;
+        document.getElementById("subject").innerText = params.get("subject");
 
+        /* LOAD STUDENTS - Smart reload to ignore '0' and handle 'AB' */
+        function loadStudents() {
+            var examParam = params.get("exam");
+            var subjectParam = params.get("subject");
 
-<table>
+            fetch(scriptURL + "?class=" + className + "&exam=" + examParam + "&subject=" + subjectParam)
+                .then(res => res.json())
+                .then(data => {
+                    var table = document.getElementById("studentTable");
+                    table.innerHTML = "";
+                    data.forEach(s => {
+                        // Display blank in HTML if the sheet has "AB"
+                        var displayMarks = s.marks === 'AB' ? '' : (s.marks || '');
+                        var row = `
+                        <tr onclick="setActiveRow(this)">
+                            <td>${s.adm}</td>
+                            <td>${s.roll}</td>
+                            <td>${s.name}</td>
+                            <td>
+                                <input type="text" class="marks" value="${displayMarks}" ${s.marks ? 'readonly' : ''} oninput="validateMarks(this)" onfocus="setActiveRow(this.closest('tr'))">
+                                <button class="editBtn" ${s.marks ? '' : 'style="display:none;"'} onclick="enableEdit(this)">Edit</button>
+                            </td>
+                        </tr>
+                        `;
+                        table.innerHTML += row;
+                    });
+                    
+                    // Automatically jump to the first empty student
+                    var firstEmpty = document.querySelector(".marks:not([readonly])");
+                    if (firstEmpty) firstEmpty.focus();
+                });
+        }
 
-<thead>
+        loadStudents();
 
-<tr>
-<th>Adm No</th>
-<th>Roll No</th>
-<th>Student Name</th>
-<th>Marks</th>
-</tr>
+        /* INTERACTIVE FILTER */
+        function filterTable() {
+            var filter = document.getElementById("searchInput").value.toUpperCase();
+            var rows = document.querySelectorAll("#studentTable tr");
+            rows.forEach(row => {
+                var roll = row.children[1].innerText.toUpperCase();
+                var name = row.children[2].innerText.toUpperCase();
+                row.style.display = (name.includes(filter) || roll.includes(filter)) ? "" : "none";
+            });
+        }
 
-</thead>
+        /* HIGHLIGHTING */
+        function setActiveRow(row) {
+            document.querySelectorAll("#studentTable tr").forEach(r => r.classList.remove("active-row"));
+            row.classList.add("active-row");
+        }
 
-<tbody id="studentTable"></tbody>
+        /* ENABLE EDIT */
+        function enableEdit(btn) {
+            var input = btn.previousElementSibling;
+            input.removeAttribute("readonly");
+            input.focus();
+            btn.style.display = "none";
+        }
 
+        /* SAVE MARKS - THE "0" FIX IS HERE */
+        function saveMarks() {
+            var rows = document.querySelectorAll("#studentTable tr");
+            var marksData = [];
+            var examLabel = document.getElementById("exam").innerText;
+            var maxMarks = examLabel.includes("Summative") ? 100 : 50;
 
-</table>
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                var input = row.querySelector(".marks");
+                
+                // Skip if the row is already locked (previously saved)
+                if (input.hasAttribute("readonly")) continue;
 
+                var val = input.value.trim();
+                var adm = row.children[0].innerText;
+                
+                if (val === "") {
+                    // Send empty string. This prevents it from becoming '0' in the sheet.
+                    marksData.push({ adm: adm, marks: "" });
+                } else {
+                    var num = Number(val);
+                    // Standard numeric validation
+                    if (isNaN(num) || num < 0 || num > maxMarks) {
+                        alert("Invalid marks for ADM: " + adm + "\nLimit: 0 to " + maxMarks);
+                        input.focus(); 
+                        return;
+                    }
+                    marksData.push({ adm: adm, marks: num });
+                }
+            }
 
-<div class="btn-area">
+            if (marksData.length === 0) return alert("No new marks to save.");
+            
+            var saveBtn = document.getElementById("saveBtn");
+            saveBtn.innerText = "Processing...";
+            saveBtn.disabled = true;
 
-<button onclick="saveMarks()">Save Marks</button>
-</div>
+            fetch(scriptURL, {
+                method: "POST",
+                body: JSON.stringify({
+                    class: className,
+                    exam: examLabel,
+                    subject: document.getElementById("subject").innerText,
+                    marks: marksData
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert("Success! Marks and Grades have been updated.");
+                saveBtn.innerText = "Save All Marks";
+                saveBtn.disabled = false;
+                loadStudents(); // Reload to refresh the "Readonly" locks
+            })
+            .catch(err => {
+                alert("Network error. Please try again.");
+                saveBtn.innerText = "Save All Marks";
+                saveBtn.disabled = false;
+            });
+        }
 
-</div>
+        /* VISUAL VALIDATION */
+        function validateMarks(input) {
+            var examText = document.getElementById("exam").innerText;
+            var max = examText.includes("Summative") ? 100 : 50;
+            if (input.value !== "" && (Number(input.value) > max || isNaN(Number(input.value)))) {
+                input.style.border = "2px solid red";
+            } else {
+                input.style.border = "1px solid #ccc";
+            }
+        }
 
-<script>
-
-var teacher = sessionStorage.getItem("teacherName");
-
-if(!teacher){
-window.location.href="login.html";
-}
-
-document.getElementById("teacherDisplay").innerText = teacher;
-
-function logout(){
-sessionStorage.clear();
-window.location.href="login.html";
-}
-
-
-var params = new URLSearchParams(window.location.search);
-
-var className = params.get("class");
-
-document.getElementById("session").innerText = params.get("session");
-document.getElementById("exam").innerText = params.get("exam");
-document.getElementById("class").innerText = className;
-document.getElementById("subject").innerText = params.get("subject");
-
-
-/* LOAD STUDENTS */
-
-var scriptURL="https://script.google.com/macros/s/AKfycbxdeCzfy1gRAupiiq2yAltl1RAk-nxUU80Fagur8OQ0XbioiyOAIEu6mo3hRV3kRTHn6w/exec";
-
-fetch(scriptURL + "?class=" + className)
-.then(res => res.json())
-.then(data => {
-
-var table = document.getElementById("studentTable");
-
-data.forEach(s => {
-
-var row = `
-<tr>
-<td>${s.adm}</td>
-<td>${s.roll}</td>
-<td>${s.name}</td>
-<td>
-<input type="number" class="marks">
-<button class="editBtn" style="display:none;">Edit</button>
-</td>
-</tr>
-`;
-table.innerHTML += row;
-
-});
-
-});
-
-function saveMarks(){
-
-var rows = document.querySelectorAll("#studentTable tr");
-
-var marksData = [];
-
-rows.forEach(row=>{
-
-var adm = row.children[0].innerText;
-var marks = row.children[3].querySelector("input").value;
-
-marksData.push({
-adm: adm,
-marks: marks
-});
-
-});
-
-var payload = {
-
-class: document.getElementById("class").innerText,
-exam: document.getElementById("exam").innerText,
-subject: document.getElementById("subject").innerText,
-marks: marksData
-
-};
-
-
-fetch(scriptURL,{
-method:"POST",
-body:JSON.stringify(payload)
-})
-.then(res=>res.json())
-.then(data=>{
-
-alert("Marks Saved Successfully");
-
-});
-
-}
-
-</script>
+        /* KEYBOARD NAVIGATION (ENTER KEY) */
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                var active = document.activeElement;
+                if (active.classList.contains("marks")) {
+                    e.preventDefault();
+                    var inputs = Array.from(document.querySelectorAll(".marks"));
+                    var index = inputs.indexOf(active);
+                    if (index > -1 && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
