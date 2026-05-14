@@ -110,7 +110,7 @@ body{ margin:0; background:var(--bg); padding:40px 20px; color:var(--text); }
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzqSN_jeDYpRAFNoSMu1k_vjfr73ey-r_WtCQZGCOI0AG7ZkkUpm9rQX8L_bE80PcrO/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbws1d_weeNBCy5qSUUokCErS9xtzeRT6XOf4tRFfRfKa0WLuKP6vVyF0U64Wn08GDE2/exec";
 let currentResults = [];
 
 function searchStudents(){
@@ -160,16 +160,15 @@ function showDetails(index) {
     { label: "Class", val: s.className },
     { label: "Gender", val: s.sex },
     { label: "Date of Birth", val: s.dob },
-    { label: "Date of Admission", val: s.admissionDate }, // Now shows clean date
-    { label: "Student Aadhaar", val: s.studentAadhaar },  // Now visible
+    { label: "Date of Admission", val: s.admissionDate },
+    { label: "Student Aadhaar", val: s.studentAadhaar }, // Field added here
     { label: "Father's Name", val: s.father },
     { label: "Mother's Name", val: s.mother },
     { label: "Phone", val: s.phone },
     { label: "Category", val: s.socialCategory },
     { label: "PEN", val: s.pen },
     { label: "Unique ID", val: s.uniqueID },
-    { label: "Address", val: s.address },
-    { label: "Remarks", val: s.remarks }
+    { label: "Address", val: s.address }
   ];
 
   grid.innerHTML = fields.map(f => `
@@ -181,7 +180,6 @@ function showDetails(index) {
 
   document.getElementById("modalOverlay").style.display = "flex";
 }
-
 function closeModal() {
   document.getElementById("modalOverlay").style.display = "none";
 }
