@@ -305,6 +305,11 @@ All fields are mandatory for admission processing.
 </div>
 
 <div class="col-4">
+<label>Admission Number</label>
+<input type="text" id="admissionNo" required>
+</div>  
+
+<div class="col-4">
 <label>PEN Number</label>
 <input type="text" id="pen" required>
 </div>
@@ -454,6 +459,7 @@ formData.append("socialCategory",document.getElementById("socialCategory").value
 formData.append("dob",document.getElementById("dob").value);
 formData.append("admissionDate",document.getElementById("admissionDate").value);  
 formData.append("className",document.getElementById("className").value);
+formData.append("admissionNo",document.getElementById("admissionNo").value);  
 formData.append("pen",document.getElementById("pen").value);
 formData.append("uniqueID",document.getElementById("uniqueID").value);
 formData.append("apaar",document.getElementById("apaar").value);
@@ -484,7 +490,16 @@ btn.innerText="Submit Admission Form";
 
 return;
 }
+if(data === "duplicate_admission"){
 
+alert("Admission Number already exists.");
+
+btn.disabled=false;
+btn.innerText="Submit Admission Form";
+
+return;
+}
+  
 alert("Application Submitted Successfully!");
 
 document.getElementById("admissionForm").reset();
