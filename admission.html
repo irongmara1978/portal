@@ -272,6 +272,19 @@ All fields are mandatory for admission processing.
 </div>
 
 <div class="col-4">
+<label>Social Category</label>
+<select id="socialCategory" required>
+<option value="">Select Category</option>
+<option>General</option>
+<option>OBC</option>
+<option>MOBC</option>
+<option>SC</option>
+<option>ST(P)</option>
+<option>ST(H)</option>
+</select>
+</div>
+
+<div class="col-4">
 <label>Date of Birth</label>
 <input type="date" id="dob" required>
 </div>
@@ -437,6 +450,7 @@ formData.append("session","2026-27");
 formData.append("submittedBy",document.getElementById("submittedBy").value);
 formData.append("studentName",document.getElementById("studentName").value);
 formData.append("sex",document.getElementById("sex").value);
+formData.append("socialCategory",document.getElementById("socialCategory").value);  
 formData.append("dob",document.getElementById("dob").value);
 formData.append("admissionDate",document.getElementById("admissionDate").value);  
 formData.append("className",document.getElementById("className").value);
