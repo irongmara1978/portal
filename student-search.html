@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Search | Irongmara ME School</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--primary:#1e293b;
+--accent:#2563eb;
+--bg:#f1f5f9;
+--card:#ffffff;
+--border:#e2e8f0;
+--text:#334155;
+}
+
+*{
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+margin:0;
+background:var(--bg);
+padding:40px 20px;
+color:var(--text);
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+background:white;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.header{
+background:var(--primary);
+color:white;
+padding:35px;
+}
+
+.header h1{
+margin:0;
+font-size:28px;
+}
+
+.header p{
+margin-top:8px;
+opacity:0.85;
+font-size:14px;
+}
+
+.search-box{
+padding:35px;
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+border-bottom:1px solid var(--border);
+}
+
+.search-box input{
+flex:1;
+min-width:250px;
+padding:14px;
+border:1px solid var(--border);
+border-radius:10px;
+font-size:15px;
+}
+
+.search-box input:focus{
+outline:none;
+border-color:var(--accent);
+box-shadow:0 0 0 4px rgba(37,99,235,0.1);
+}
+
+.search-box button{
+padding:14px 28px;
+background:var(--accent);
+border:none;
+border-radius:10px;
+color:white;
+font-size:15px;
+font-weight:600;
+cursor:pointer;
+}
+
+.results{
+padding:35px;
+display:grid;
+gap:20px;
+}
+
+.student-card{
+background:#f8fafc;
+border:1px solid var(--border);
+border-radius:14px;
+padding:22px;
+}
+
+.student-name{
+font-size:22px;
+font-weight:700;
+margin-bottom:20px;
+color:var(--primary);
+}
+
+.info-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+
+.info-item{
+background:white;
+border:1px solid var(--border);
+border-radius:10px;
+padding:12px;
+}
+
+.info-label{
+font-size:11px;
+text-transform:uppercase;
+font-weight:700;
+letter-spacing:1px;
+color:#64748b;
+margin-bottom:6px;
+}
+
+.info-value{
+font-size:14px;
+font-weight:500;
+word-break:break-word;
+}
+
+.message{
+padding:35px;
+text-align:center;
+font-weight:600;
+}
+
+@media(max-width:600px){
+
+.search-box{
+flex-direction:column;
+}
+
+.search-box button{
+width:100%;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1>Student Search Portal</h1>
+
+<p>
+Search students by name and view admission details
+</p>
+
+</div>
+
+<div class="search-box">
+
+<input type="text" id="searchText" placeholder="Enter student name">
+
+<button onclick="searchStudents()">
+Search
+</button>
+
+</div>
+
+<div id="results" class="results"></div>
+
+</div>
+
+<script>
+
+/* REPLACE WITH YOUR APPS SCRIPT URL */
+
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzpeoPx3-88HNNyIIwushu57oSoV3mbYV1OKsikrmMuCfu-i8Id2LmLQZ-PziMB0-Eh/exec";
+
+function searchStudents(){
+
+const searchText = document.getElementById("searchText").value.trim();
+
+const resultsDiv = document.getElementById("results");
+
+if(searchText === ""){
+
+alert("Please enter student name");
+
+return;
+
+}
+
+resultsDiv.innerHTML = `
+<div class="message">
+Searching students...
+</div>
+`;
+
+fetch(SCRIPT_URL + "?studentName=" + encodeURIComponent(searchText))
+
+.then(response => response.json())
+
+.then(data => {
+
+if(!data || data.length === 0){
+
+resultsDiv.innerHTML = `
+<div class="message">
+No matching students found
+</div>
+`;
+
+return;
+
+}
+
+resultsDiv.innerHTML = "";
+
+data.forEach(student => {
+
+resultsDiv.innerHTML += `
+
+<div class="student-card">
+
+<div class="student-name">
+${student.studentName}
+</div>
+
+<div class="info-grid">
+
+<div class="info-item">
+<div class="info-label">Admission Number</div>
+<div class="info-value">${student.admissionNo || ""}</div>
+</div>
+
+<div class="info-item">
+<div class="info-label">Class</div>
+<div class="info-value">${student.className || ""}</div>
+</div>
+
+<div class="info-item">
+<div class="info-label">Sex</div>
+<div class="info-value">${student.sex || ""}</div>
+</div>
+
+<div class="info-item">
+<div class="info-label">Social Category</div>
+<div class="info-value">${student.socialCategory || ""}</div>
+</div>
+
+<div class="info-item">
+<div class="info-label">DOB</div>
+<div class="info-value">${student.dob || ""}</div>
+</div>
+
+<div class="info-item">
+<div class="info-label">Admission Date</div>
+<div class="info-value">${student.admissionDate || ""}</div>
+</div>
+
+<div class="info-item">
+<div class="info-label">Father</div>
+<div class="info-value">${student.father || ""}</div>
+</div>
+
+<div class="info-item">
+<div class="info-label">Mother</div>
+<div class="info-value">${student.mother || ""}</div>
+</div>
+
+<div class="info-item">
+<div class="info-label">Phone</div>
+<div class="info-value">${student.phone || ""}</div>
+</div>
+
+<div class="info-item">
+<div class="info-label">Address</div>
+<div class="info-value">${student.address || ""}</div>
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+})
+
+.catch(error => {
+
+console.error(error);
+
+resultsDiv.innerHTML = `
+<div class="message">
+Failed to load student data
+</div>
+`;
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
