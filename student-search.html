@@ -3,323 +3,196 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Student Search | Irongmara ME School</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
 :root{
---primary:#1e293b;
---accent:#2563eb;
---bg:#f1f5f9;
---card:#ffffff;
---border:#e2e8f0;
---text:#334155;
+  --primary:#1e293b;
+  --accent:#2563eb;
+  --bg:#f1f5f9;
+  --card:#ffffff;
+  --border:#e2e8f0;
+  --text:#334155;
+  --success:#10b981;
 }
 
-*{
-box-sizing:border-box;
-font-family:'Inter',sans-serif;
+*{ box-sizing:border-box; font-family:'Inter',sans-serif; }
+
+body{ margin:0; background:var(--bg); padding:40px 20px; color:var(--text); }
+
+.container{ max-width:900px; margin:auto; background:white; border-radius:18px; overflow:hidden; box-shadow:0 10px 25px rgba(0,0,0,0.08); }
+
+.header{ background:var(--primary); color:white; padding:30px 35px; }
+.header h1{ margin:0; font-size:24px; }
+.header p{ margin:8px 0 0; opacity:0.8; font-size:14px; }
+
+.search-box{ padding:25px 35px; display:flex; gap:15px; border-bottom:1px solid var(--border); background:#fff; }
+.search-box input{ flex:1; padding:14px; border:1px solid var(--border); border-radius:10px; font-size:15px; }
+.search-box button{ padding:14px 28px; background:var(--accent); border:none; border-radius:10px; color:white; font-weight:600; cursor:pointer; transition: 0.2s; }
+.search-box button:hover{ background:#1d4ed8; }
+
+/* Selection List Styles */
+.results{ padding:20px 35px; }
+.list-item{ 
+  display:flex; justify-content:space-between; align-items:center;
+  padding:15px; border:1px solid var(--border); border-radius:12px; margin-bottom:10px;
+  background:#fff; transition: 0.2s;
 }
+.list-item:hover{ border-color:var(--accent); background:#f8fafc; }
+.student-brief h4{ margin:0; font-size:16px; color:var(--primary); }
+.student-brief p{ margin:4px 0 0; font-size:13px; color:#64748b; }
 
-body{
-margin:0;
-background:var(--bg);
-padding:40px 20px;
-color:var(--text);
+.view-btn{ 
+  padding:8px 16px; background:white; border:1.5px solid var(--accent); 
+  color:var(--accent); border-radius:8px; font-size:13px; font-weight:600; cursor:pointer;
 }
+.view-btn:hover{ background:var(--accent); color:white; }
 
-.container{
-max-width:1000px;
-margin:auto;
-background:white;
-border-radius:18px;
-overflow:hidden;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
+/* Full Detail Modal */
+.modal-overlay {
+  display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;
 }
-
-.header{
-background:var(--primary);
-color:white;
-padding:35px;
+.modal-content {
+  background:white; width:95%; max-width:800px; max-height:90vh; 
+  border-radius:15px; overflow-y:auto; position:relative; animation: slideUp 0.3s ease-out;
 }
+@keyframes slideUp { from { transform: translateY(20px); opacity:0; } to { transform: translateY(0); opacity:1; } }
 
-.header h1{
-margin:0;
-font-size:28px;
-}
+.modal-header { padding:20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; background:white; }
+.close-modal { font-size:24px; cursor:pointer; border:none; background:none; color:#64748b; }
 
-.header p{
-margin-top:8px;
-opacity:0.85;
-font-size:14px;
-}
+.detail-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:15px; padding:25px; }
+.detail-item { border:1px solid #f1f5f9; padding:12px; border-radius:8px; background:#f8fafc; }
+.detail-label { font-size:10px; text-transform:uppercase; font-weight:700; color:#94a3b8; margin-bottom:4px; }
+.detail-value { font-size:14px; font-weight:600; color:var(--primary); }
 
-.search-box{
-padding:35px;
-display:flex;
-gap:15px;
-flex-wrap:wrap;
-border-bottom:1px solid var(--border);
-}
+.print-btn { margin: 25px; padding: 12px 20px; background: #334155; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
 
-.search-box input{
-flex:1;
-min-width:250px;
-padding:14px;
-border:1px solid var(--border);
-border-radius:10px;
-font-size:15px;
-}
-
-.search-box input:focus{
-outline:none;
-border-color:var(--accent);
-box-shadow:0 0 0 4px rgba(37,99,235,0.1);
-}
-
-.search-box button{
-padding:14px 28px;
-background:var(--accent);
-border:none;
-border-radius:10px;
-color:white;
-font-size:15px;
-font-weight:600;
-cursor:pointer;
-}
-
-.results{
-padding:35px;
-display:grid;
-gap:20px;
-}
-
-.student-card{
-background:#f8fafc;
-border:1px solid var(--border);
-border-radius:14px;
-padding:22px;
-}
-
-.student-name{
-font-size:22px;
-font-weight:700;
-margin-bottom:20px;
-color:var(--primary);
-}
-
-.info-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
-}
-
-.info-item{
-background:white;
-border:1px solid var(--border);
-border-radius:10px;
-padding:12px;
-}
-
-.info-label{
-font-size:11px;
-text-transform:uppercase;
-font-weight:700;
-letter-spacing:1px;
-color:#64748b;
-margin-bottom:6px;
-}
-
-.info-value{
-font-size:14px;
-font-weight:500;
-word-break:break-word;
-}
-
-.message{
-padding:35px;
-text-align:center;
-font-weight:600;
-}
-
-@media(max-width:600px){
-
-.search-box{
-flex-direction:column;
-}
-
-.search-box button{
-width:100%;
-}
-
-}
-
+@media(max-width:600px){ .search-box{ flex-direction:column; } .list-item{ flex-direction:column; align-items:flex-start; gap:12px; } }
 </style>
 </head>
-
 <body>
 
 <div class="container">
+  <div class="header">
+    <h1>Digital Student Register</h1>
+    <p>Irongmara M.E. School | Search & Verification Portal</p>
+  </div>
 
-<div class="header">
+  <div class="search-box">
+    <input type="text" id="searchText" placeholder="Enter student name (e.g. Rahul Das)">
+    <button onclick="searchStudents()">Search Register</button>
+  </div>
 
-<h1>Student Search Portal</h1>
-
-<p>
-Search students by name and view admission details
-</p>
-
+  <div id="results" class="results">
+    <div class="message" style="text-align:center; padding:40px; color:#94a3b8;">
+      Enter a name above to retrieve records.
+    </div>
+  </div>
 </div>
 
-<div class="search-box">
-
-<input type="text" id="searchText" placeholder="Enter student name">
-
-<button onclick="searchStudents()">
-Search
-</button>
-
-</div>
-
-<div id="results" class="results"></div>
-
+<!-- Detailed View Modal -->
+<div id="modalOverlay" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="m-name" style="margin:0; color:var(--accent);">Student Details</h2>
+      <button class="close-modal" onclick="closeModal()">&times;</button>
+    </div>
+    
+    <div class="detail-grid" id="detailGrid">
+      <!-- Data will be injected here -->
+    </div>
+    
+    <button class="print-btn" onclick="window.print()">Print This Record</button>
+  </div>
 </div>
 
 <script>
-
-/* REPLACE WITH YOUR APPS SCRIPT URL */
-
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzpeoPx3-88HNNyIIwushu57oSoV3mbYV1OKsikrmMuCfu-i8Id2LmLQZ-PziMB0-Eh/exec";
+let currentResults = [];
 
 function searchStudents(){
+  const searchText = document.getElementById("searchText").value.trim();
+  const resultsDiv = document.getElementById("results");
 
-const searchText = document.getElementById("searchText").value.trim();
+  if(!searchText) { alert("Please enter a name"); return; }
 
-const resultsDiv = document.getElementById("results");
+  resultsDiv.innerHTML = `<div style="text-align:center; padding:40px;">Searching database...</div>`;
 
-if(searchText === ""){
+  fetch(`${SCRIPT_URL}?studentName=${encodeURIComponent(searchText)}`)
+    .then(res => res.json())
+    .then(data => {
+      currentResults = data;
+      if(data.length === 0){
+        resultsDiv.innerHTML = `<div style="text-align:center; padding:40px;">No records found.</div>`;
+        return;
+      }
 
-alert("Please enter student name");
-
-return;
-
+      resultsDiv.innerHTML = `<p style="font-size:13px; margin-bottom:15px; color:#64748b;">Found ${data.length} match(es):</p>`;
+      
+      data.forEach((student, index) => {
+        resultsDiv.innerHTML += `
+          <div class="list-item">
+            <div class="student-brief">
+              <h4>${student.studentName}</h4>
+              <p>Father: ${student.father} | Class: ${student.className} | Session: ${student.session}</p>
+            </div>
+            <button class="view-btn" onclick="showDetails(${index})">View Full Profile</button>
+          </div>
+        `;
+      });
+    })
+    .catch(err => {
+      resultsDiv.innerHTML = `<div style="text-align:center; padding:40px; color:red;">Error connecting to server.</div>`;
+    });
 }
 
-resultsDiv.innerHTML = `
-<div class="message">
-Searching students...
-</div>
-`;
+function showDetails(index) {
+  const s = currentResults[index];
+  const grid = document.getElementById("detailGrid");
+  document.getElementById("m-name").innerText = s.studentName;
+  
+  const fields = [
+    { label: "Admission No", val: s.admissionNo },
+    { label: "Academic Session", val: s.session },
+    { label: "Class", val: s.className },
+    { label: "Gender", val: s.sex },
+    { label: "Date of Birth", val: s.dob },
+    { label: "Date of Admission", val: s.admissionDate },
+    { label: "Father's Name", val: s.father },
+    { label: "Mother's Name", val: s.mother },
+    { label: "Phone", val: s.phone },
+    { label: "Category", val: s.socialCategory },
+    { label: "PEN", val: s.pen },
+    { label: "Unique ID", val: s.uniqueID },
+    { label: "APAAR", val: s.apaar },
+    { label: "Aadhaar Status", val: s.studentAadhaar },
+    { label: "Address", val: s.address },
+    { label: "UDISE", val: s.udise },
+    { label: "Remarks", val: s.remarks }
+  ];
 
-fetch(SCRIPT_URL + "?studentName=" + encodeURIComponent(searchText))
+  grid.innerHTML = fields.map(f => `
+    <div class="detail-item">
+      <div class="detail-label">${f.label}</div>
+      <div class="detail-value">${f.val || "N/A"}</div>
+    </div>
+  `).join('');
 
-.then(response => response.json())
-
-.then(data => {
-
-if(!data || data.length === 0){
-
-resultsDiv.innerHTML = `
-<div class="message">
-No matching students found
-</div>
-`;
-
-return;
-
+  document.getElementById("modalOverlay").style.display = "flex";
 }
 
-resultsDiv.innerHTML = "";
-
-data.forEach(student => {
-
-resultsDiv.innerHTML += `
-
-<div class="student-card">
-
-<div class="student-name">
-${student.studentName}
-</div>
-
-<div class="info-grid">
-
-<div class="info-item">
-<div class="info-label">Admission Number</div>
-<div class="info-value">${student.admissionNo || ""}</div>
-</div>
-
-<div class="info-item">
-<div class="info-label">Class</div>
-<div class="info-value">${student.className || ""}</div>
-</div>
-
-<div class="info-item">
-<div class="info-label">Sex</div>
-<div class="info-value">${student.sex || ""}</div>
-</div>
-
-<div class="info-item">
-<div class="info-label">Social Category</div>
-<div class="info-value">${student.socialCategory || ""}</div>
-</div>
-
-<div class="info-item">
-<div class="info-label">DOB</div>
-<div class="info-value">${student.dob || ""}</div>
-</div>
-
-<div class="info-item">
-<div class="info-label">Admission Date</div>
-<div class="info-value">${student.admissionDate || ""}</div>
-</div>
-
-<div class="info-item">
-<div class="info-label">Father</div>
-<div class="info-value">${student.father || ""}</div>
-</div>
-
-<div class="info-item">
-<div class="info-label">Mother</div>
-<div class="info-value">${student.mother || ""}</div>
-</div>
-
-<div class="info-item">
-<div class="info-label">Phone</div>
-<div class="info-value">${student.phone || ""}</div>
-</div>
-
-<div class="info-item">
-<div class="info-label">Address</div>
-<div class="info-value">${student.address || ""}</div>
-</div>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-})
-
-.catch(error => {
-
-console.error(error);
-
-resultsDiv.innerHTML = `
-<div class="message">
-Failed to load student data
-</div>
-`;
-
-});
-
+function closeModal() {
+  document.getElementById("modalOverlay").style.display = "none";
 }
 
+// Close modal if user clicks outside of it
+window.onclick = function(event) {
+  let modal = document.getElementById("modalOverlay");
+  if (event.target == modal) closeModal();
+}
 </script>
 
 </body>
