@@ -276,6 +276,11 @@ All fields are mandatory for admission processing.
 <input type="date" id="dob" required>
 </div>
 
+  <div class="col-4">
+<label>Date of Admission</label>
+<input type="date" id="admissionDate" required>
+</div>
+
 <div class="col-4">
 <label>Class Seeking Admission</label>
 <select id="className" required>
@@ -433,6 +438,7 @@ formData.append("submittedBy",document.getElementById("submittedBy").value);
 formData.append("studentName",document.getElementById("studentName").value);
 formData.append("sex",document.getElementById("sex").value);
 formData.append("dob",document.getElementById("dob").value);
+formData.append("admissionDate",document.getElementById("admissionDate").value);  
 formData.append("className",document.getElementById("className").value);
 formData.append("pen",document.getElementById("pen").value);
 formData.append("uniqueID",document.getElementById("uniqueID").value);
