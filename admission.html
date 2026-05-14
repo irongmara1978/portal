@@ -421,150 +421,111 @@ Submit Admission Form
 
 
 <script>
-
 const SCRIPT_URL="https://script.google.com/macros/s/AKfycbzpeoPx3-88HNNyIIwushu57oSoV3mbYV1OKsikrmMuCfu-i8Id2LmLQZ-PziMB0-Eh/exec";
 
 document.addEventListener("DOMContentLoaded",function(){
-
-var teacher=sessionStorage.getItem("teacherName");
-
-if(!teacher){
-alert("Session expired. Please login again.");
-window.location.href="login.html";
-}
-
-document.getElementById("submittedBy").value=teacher;
-
-loadStudentList();
-
+    var teacher=sessionStorage.getItem("teacherName");
+    if(!teacher){
+        alert("Session expired. Please login again.");
+        window.location.href="login.html";
+    }
+    document.getElementById("submittedBy").value=teacher;
+    loadStudentList();
 });
-
 
 document.getElementById('admissionForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    const btn=document.getElementById('submitBtn');
 
-e.preventDefault();
+    btn.innerText="Submitting...";
+    btn.disabled=true;
 
-const btn=document.getElementById('submitBtn');
+    const formData=new URLSearchParams();
+    formData.append("session","2026-27");
+    formData.append("submittedBy",document.getElementById("submittedBy").value);
+    formData.append("studentName",document.getElementById("studentName").value);
+    formData.append("sex",document.getElementById("sex").value);
+    formData.append("socialCategory",document.getElementById("socialCategory").value);  
+    formData.append("dob",document.getElementById("dob").value);
+    formData.append("admissionDate",document.getElementById("admissionDate").value);  
+    formData.append("className",document.getElementById("className").value);
+    formData.append("admissionNo",document.getElementById("admissionNo").value);  
+    formData.append("pen",document.getElementById("pen").value);
+    formData.append("uniqueID",document.getElementById("uniqueID").value);
+    formData.append("apaar",document.getElementById("apaar").value);
+    formData.append("studentAadhaar",document.getElementById("studentAadhaar").value);
+    formData.append("father",document.getElementById("father").value);
+    formData.append("mother",document.getElementById("mother").value);
+    formData.append("guardianAadhaar",document.getElementById("guardianAadhaar").value);
+    formData.append("phone",document.getElementById("phone").value);
+    formData.append("address",document.getElementById("address").value);
+    formData.append("udise",document.getElementById("udise").value);
+    formData.append("remarks",document.getElementById("remarks").value);
 
-btn.innerText="Submitting...";
-btn.disabled=true;
+    fetch(SCRIPT_URL,{
+        method:'POST',
+        body:formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        // --- DUPLICATE CHECKS ---
+        if(data === "duplicate"){
+            alert("Error: This Aadhaar number is already registered for this session.");
+        } 
+        else if(data === "duplicate_admission"){
+            alert("Error: This Admission Number already exists in the records.");
+        }
+        else if(data === "duplicate_pen"){
+            alert("Error: This PEN Number is already assigned to another student.");
+        }
+        else if(data === "duplicate_uniqueid"){
+            alert("Error: This Unique ID is already registered.");
+        }
+        else if(data === "success"){
+            alert("Application Submitted Successfully!");
+            document.getElementById("admissionForm").reset();
+            loadStudentList();
+        } else {
+            alert("Unexpected Response: " + data);
+        }
 
-const formData=new URLSearchParams();
-
-formData.append("session","2026-27");
-formData.append("submittedBy",document.getElementById("submittedBy").value);
-formData.append("studentName",document.getElementById("studentName").value);
-formData.append("sex",document.getElementById("sex").value);
-formData.append("socialCategory",document.getElementById("socialCategory").value);  
-formData.append("dob",document.getElementById("dob").value);
-formData.append("admissionDate",document.getElementById("admissionDate").value);  
-formData.append("className",document.getElementById("className").value);
-formData.append("admissionNo",document.getElementById("admissionNo").value);  
-formData.append("pen",document.getElementById("pen").value);
-formData.append("uniqueID",document.getElementById("uniqueID").value);
-formData.append("apaar",document.getElementById("apaar").value);
-formData.append("studentAadhaar",document.getElementById("studentAadhaar").value);
-formData.append("father",document.getElementById("father").value);
-formData.append("mother",document.getElementById("mother").value);
-formData.append("guardianAadhaar",document.getElementById("guardianAadhaar").value);
-formData.append("phone",document.getElementById("phone").value);
-formData.append("address",document.getElementById("address").value);
-formData.append("udise",document.getElementById("udise").value);
-formData.append("remarks",document.getElementById("remarks").value);
-
-fetch(SCRIPT_URL,{
-method:'POST',
-body:formData
-})
-
-.then(response => response.text())
-
-.then(data => {
-
-if(data === "duplicate"){
-
-alert("This Aadhaar number has already been entered for this session.");
-
-btn.disabled=false;
-btn.innerText="Submit Admission Form";
-
-return;
-}
-if(data === "duplicate_admission"){
-
-alert("Admission Number already exists.");
-
-btn.disabled=false;
-btn.innerText="Submit Admission Form";
-
-return;
-}
-  
-alert("Application Submitted Successfully!");
-
-document.getElementById("admissionForm").reset();
-
-btn.disabled=false;
-btn.innerText="Submit Admission Form";
-
-loadStudentList();
-
-})
-
-.catch(error => {
-
-console.error(error);
-
-alert("Submission failed");
-
-btn.disabled=false;
-
+        btn.disabled=false;
+        btn.innerText="Submit Admission Form";
+    })
+    .catch(error => {
+        console.error(error);
+        alert("Submission failed. Check your connection.");
+        btn.disabled=false;
+        btn.innerText="Submit Admission Form";
+    });
 });
-
-});
-
 
 function loadStudentList(){
+    const year = new Date().getFullYear();
+    const session = year + "-" + (year+1);
 
-const year = new Date().getFullYear();
-const session = year + "-" + (year+1);
-
-fetch(SCRIPT_URL + "?session=" + session)
-
-.then(res => res.json())
-
-.then(data => {
-
-const tbody = document.querySelector("#studentTable tbody");
-
-tbody.innerHTML="";
-
-data.reverse();
-
-data.forEach((row,index)=>{
-
-const tr=document.createElement("tr");
-
-tr.innerHTML=`
-<td>${index+1}</td>
-<td>${row[1] || ""}</td>
-<td>${row[3] || ""}</td>
-<td>${row[8] || ""}</td>
-<td>${row[13] || ""}</td>
-<td>${row[16] || ""}</td>
-<td>${row[20] || ""}</td>
-`;
-
-tbody.appendChild(tr);
-
-});
-
-})
-
-.catch(err=>console.error(err));
-
+    fetch(SCRIPT_URL + "?session=" + session)
+    .then(res => res.json())
+    .then(data => {
+        const tbody = document.querySelector("#studentTable tbody");
+        tbody.innerHTML="";
+        data.reverse();
+        data.forEach((row,index)=>{
+            const tr=document.createElement("tr");
+            tr.innerHTML=`
+                <td>${index+1}</td>
+                <td>${row[1] || ""}</td>
+                <td>${row[3] || ""}</td>
+                <td>${row[8] || ""}</td>
+                <td>${row[13] || ""}</td>
+                <td>${row[16] || ""}</td>
+                <td>${row[20] || ""}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    })
+    .catch(err=>console.error(err));
 }
-
 </script>
 
 </body>
