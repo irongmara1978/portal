@@ -63,8 +63,25 @@ body{ margin:0; background:var(--bg); padding:40px 20px; color:var(--text); }
 .modal-header { padding:20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; background:white; }
 .close-modal { font-size:24px; cursor:pointer; border:none; background:none; color:#64748b; }
 
-.detail-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:15px; padding:25px; }
-.detail-item { border:1px solid #f1f5f9; padding:12px; border-radius:8px; background:#f8fafc; }
+.detail-grid { 
+  display: grid; 
+  /* This creates columns that are at least 220px wide and wrap automatically */
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+  gap: 15px; 
+  padding: 25px; 
+  /* This kills the horizontal scroll */
+  overflow-x: hidden; 
+}
+.detail-item { 
+  border: 1px solid #f1f5f9; 
+  padding: 12px; 
+  border-radius: 8px; 
+  background: #f8fafc;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .detail-label { font-size:10px; text-transform:uppercase; font-weight:700; color:#94a3b8; margin-bottom:4px; }
 .detail-value { font-size:14px; font-weight:600; color:var(--primary); }
 
@@ -174,18 +191,17 @@ function showDetails(index) {
   ];
 
 grid.innerHTML = fields.map(f => {
-    // Check if this specific item is the Remarks field
     const isRemarks = f.label === "Remarks";
     
     return `
-      <div class="detail-item" style="${isRemarks ? 'grid-column: span 12; background: #fff7ed; border: 1px solid #fed7aa;' : ''}">
+      <div class="detail-item" style="${isRemarks ? 'grid-column: 1 / -1; background: #fff7ed; border: 1px solid #fed7aa; margin-top: 10px;' : ''}">
         <div class="detail-label" style="${isRemarks ? 'color: #c2410c;' : ''}">${f.label}</div>
         <div class="detail-value" style="${isRemarks ? 'color: #9a3412; font-weight: 700;' : ''}">
           ${f.val || "N/A"}
         </div>
       </div>
     `;
-  }).join('');
+}).join('');
 
   document.getElementById("modalOverlay").style.display = "flex";
 }
