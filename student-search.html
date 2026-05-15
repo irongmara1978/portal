@@ -170,14 +170,22 @@ function showDetails(index) {
     { label: "PEN", val: s.pen },
     { label: "Unique ID", val: s.uniqueID },
     { label: "Address", val: s.address }
+    { label: "Remarks", val: s.remarks }
   ];
 
-  grid.innerHTML = fields.map(f => `
-    <div class="detail-item">
-      <div class="detail-label">${f.label}</div>
-      <div class="detail-value">${f.val || "N/A"}</div>
-    </div>
-  `).join('');
+grid.innerHTML = fields.map(f => {
+    // Check if this specific item is the Remarks field
+    const isRemarks = f.label === "Remarks";
+    
+    return `
+      <div class="detail-item" style="${isRemarks ? 'grid-column: span 12; background: #fff7ed; border: 1px solid #fed7aa;' : ''}">
+        <div class="detail-label" style="${isRemarks ? 'color: #c2410c;' : ''}">${f.label}</div>
+        <div class="detail-value" style="${isRemarks ? 'color: #9a3412; font-weight: 700;' : ''}">
+          ${f.val || "N/A"}
+        </div>
+      </div>
+    `;
+  }).join('');
 
   document.getElementById("modalOverlay").style.display = "flex";
 }
