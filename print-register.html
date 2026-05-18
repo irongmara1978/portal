@@ -68,33 +68,34 @@ fetch(`${SCRIPT_URL}?session=2026-27`) // Fetches all students for the session
     .then(data => {
         const tbody = document.getElementById("tableBody");
         data.forEach((s, i) => {
-            tbody.innerHTML += `
-                <tr>
-                    <td align="center">${i + 1}</td>
-                    <td>
-                        <span class="std-name">${s[3]}</span>
-                        <span class="label">Adm:</span> ${s[1]} | <span class="label">DOB:</span> ${formatDate(s[6])}<br>
-                        <span class="label">Class:</span> ${s[8]} | <span class="label">Sex:</span> ${s[4]}
-                    </td>
-                    <td>
-                        <span class="label">Father:</span> ${s[13]}<br>
-                        <span class="label">Mother:</span> ${s[14]}<br>
-                        <span class="label">Phone:</span> ${s[16]} | <span class="label">Cat:</span> ${s[5]}
-                    </td>
-                    <td>
-                        <span class="label">PEN:</span> ${s[9]}<br>
-                        <span class="label">APAAR:</span> ${s[11]}<br>
-                        <span class="label">AADHAAR:</span> ${s[12]}
-                    </td>
-                    <td>
-                        <span class="label">Address:</span> ${s[17]}<br>
-                        <span class="label">Prev UDISE:</span> ${s[18]}<br>
-                        <span class="label">Remarks:</span> ${s[19]}
-                    </td>
-                </tr>
-            `;
-        });
-    });
+    // Assuming s[1] is Admission No, s[3] is Name, s[6] is DOB, s[8] is Class, s[4] is Sex
+    tbody.innerHTML += `
+        <tr>
+            <td align="center" style="font-weight: bold;">${s[1] || 'N/A'}</td>
+            
+            <td>
+                <span class="std-name">${s[3]}</span>
+                <span class="label">DOB:</span> ${formatDate(s[6])}<br>
+                <span class="label">Class:</span> ${s[8]} | <span class="label">Sex:</span> ${s[4]}
+            </td>
+            <td>
+                <span class="label">Father:</span> ${s[13]}<br>
+                <span class="label">Mother:</span> ${s[14]}<br>
+                <span class="label">Phone:</span> ${s[16]} | <span class="label">Cat:</span> ${s[5]}
+            </td>
+            <td>
+                <span class="label">PEN:</span> ${s[9]}<br>
+                <span class="label">APAAR:</span> ${s[11]}<br>
+                <span class="label">AADHAAR:</span> ${s[12]}
+            </td>
+            <td>
+                <span class="label">Address:</span> ${s[17]}<br>
+                <span class="label">Prev UDISE:</span> ${s[18]}<br>
+                <span class="label">Remarks:</span> ${s[19]}
+            </td>
+        </tr>
+    `;
+});
 </script>
 </body>
 </html>
