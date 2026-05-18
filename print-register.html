@@ -52,6 +52,15 @@
 </table>
 
 <script>
+function formatDate(dateStr) {
+    if (!dateStr || dateStr === "Nil") return "N/A";
+    const date = new Date(dateStr);
+    // This converts it to DD-MM-YYYY format
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+}
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUSdhh7d_ZJAC2cFocGhAr0SMCb4bre_mHDWV-U0McaHY7EL54Hp-w7o3HQv2V5Gsv/exec"; // Use your existing deployment URL
 
 fetch(`${SCRIPT_URL}?session=2026-27`) // Fetches all students for the session
