@@ -80,6 +80,13 @@ fetch(`${SCRIPT_URL}?session=2026-27`)
     .then(res => res.json())
     .then(data => {
         const tbody = document.getElementById("tableBody");
+
+        // --- ADDED SORTING LOGIC ---
+        // This sorts the data based on the Admission Number (s[1]) numerically
+        data.sort((a, b) => {
+            return (parseInt(a[1]) || 0) - (parseInt(b[1]) || 0);
+        });
+
         data.forEach((s) => {
             tbody.innerHTML += `
                 <tr>
