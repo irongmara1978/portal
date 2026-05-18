@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Printable Register | Irongmara ME School</title>
+    <style>
+        @page { size: legal landscape; margin: 0.3in; }
+        body { font-family: 'Inter', sans-serif; font-size: 10pt; color: #1e293b; margin: 0; }
+        
+        .print-header { text-align: center; margin-bottom: 20px; }
+        .print-header h1 { margin: 0; font-size: 18pt; text-transform: uppercase; }
+        
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        th, td { border: 1px solid #000; padding: 8px; vertical-align: middle; word-wrap: break-word; }
+        th { background: #f1f5f9; text-transform: uppercase; font-size: 8pt; }
+        
+        .std-name { font-weight: bold; font-size: 11pt; display: block; margin-bottom: 4px; }
+        .label { font-weight: bold; font-size: 8pt; color: #64748b; text-transform: uppercase; }
+        
+        /* Ensures 7 students per page on Legal Landscape */
+        tr { height: 1.6in; page-break-inside: avoid; }
+
+        @media print {
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="no-print" style="padding: 20px; background: #2563eb; color: white; text-align: center;">
+    <button onclick="window.print()" style="padding: 10px 20px; cursor: pointer; font-weight: bold;">PRINT REGISTER NOW</button>
+    <p>Settings: Legal Paper | Landscape | Margins: Minimum</p>
+</div>
+
+<div class="print-header">
+    <h1>Master Admission Register - Session 2026-27</h1>
+    <p>Irongmara M.E. School, Silchar, Assam</p>
+</div>
+
+<table id="registerTable">
+    <thead>
+        <tr>
+            <th style="width: 40px;">Sl</th>
+            <th>Student & Admission</th>
+            <th>Parental & Contact</th>
+            <th>Identity Numbers</th>
+            <th>Address & Remarks</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        </tbody>
+</table>
+
+<script>
+const SCRIPT_URL = "YOUR_APPS_SCRIPT_URL"; // Use your existing deployment URL
+
+fetch(`${SCRIPT_URL}?session=2026-27`) // Fetches all students for the session
+    .then(res => res.json())
+    .then(data => {
+        const tbody = document.getElementById("tableBody");
+        data.forEach((s, i) => {
+            tbody.innerHTML += `
+                <tr>
+                    <td align="center">${i + 1}</td>
+                    <td>
+                        <span class="std-name">${s[3]}</span>
+                        <span class="label">Adm:</span> ${s[1]} | <span class="label">DOB:</span> ${s[6]}<br>
+                        <span class="label">Class:</span> ${s[8]} | <span class="label">Sex:</span> ${s[4]}
+                    </td>
+                    <td>
+                        <span class="label">Father:</span> ${s[13]}<br>
+                        <span class="label">Mother:</span> ${s[14]}<br>
+                        <span class="label">Phone:</span> ${s[16]} | <span class="label">Cat:</span> ${s[5]}
+                    </td>
+                    <td>
+                        <span class="label">PEN:</span> ${s[9]}<br>
+                        <span class="label">APAAR:</span> ${s[11]}<br>
+                        <span class="label">AADHAAR:</span> ${s[12]}
+                    </td>
+                    <td>
+                        <span class="label">Address:</span> ${s[17]}<br>
+                        <span class="label">Prev UDISE:</span> ${s[18]}<br>
+                        <span class="label">Remarks:</span> ${s[19]}
+                    </td>
+                </tr>
+            `;
+        });
+    });
+</script>
+</body>
+</html>
