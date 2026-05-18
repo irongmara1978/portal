@@ -73,7 +73,7 @@ fetch(`${SCRIPT_URL}?session=2026-27`) // Fetches all students for the session
                     <td align="center">${i + 1}</td>
                     <td>
                         <span class="std-name">${s[3]}</span>
-                        <span class="label">Adm:</span> ${s[1]} | <span class="label">DOB:</span> formatDate(s[6])<br>
+                        <span class="label">Adm:</span> ${s[1]} | <span class="label">DOB:</span> ${formatDate(s[6])}<br>
                         <span class="label">Class:</span> ${s[8]} | <span class="label">Sex:</span> ${s[4]}
                     </td>
                     <td>
