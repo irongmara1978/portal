@@ -54,7 +54,7 @@
 <table id="registerTable">
    <thead>
     <tr>
-        <th style="width: 70px;">Adm. No</th> 
+        <th style="width: 70px;">Adm. No & Date of Admission</th> 
         <th>Student & Admission</th>
         <th>Parental & Contact</th>
         <th>Identity Numbers</th>
@@ -90,7 +90,12 @@ fetch(`${SCRIPT_URL}?session=2026-27`)
         data.forEach((s) => {
             tbody.innerHTML += `
                 <tr>
-                    <td align="center" style="font-size: 15pt; font-weight: bold;">${s[1] || 'N/A'}</td>
+                    <td align="center">
+                        <div class="cell-container" style="align-items: center;">
+                            <div style="font-size: 18pt; font-weight: bold; color: #000;">${s[1] || 'N/A'}</div>
+                            <div style="font-size: 12pt; margin-top: 6px; color: #444;">${formatDate(s[7])}</div>
+                        </div>
+                    </td>
                     <td>
                         <div class="cell-container">
                             <span class="std-name">${s[3]}</span>
