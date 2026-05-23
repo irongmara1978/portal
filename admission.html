@@ -258,7 +258,7 @@ All fields are mandatory for admission processing.
 
 <div class="col-8">
 <label>Student's Full Name</label>
-<input type="text" id="studentName" required>
+<input type="text" id="studentName" required style="text-transform: uppercase;">
 </div>
 
 <div class="col-4">
@@ -341,19 +341,42 @@ All fields are mandatory for admission processing.
 
 <div class="col-6">
 <label>Father's Name</label>
-<input type="text" id="father" required>
+<input type="text" id="father" required style="text-transform: uppercase;">
 </div>
 
 <div class="col-6">
 <label>Mother's Name</label>
-<input type="text" id="mother" required>
+<input type="text" id="mother" required style="text-transform: uppercase;">
 </div>
 
-<div class="col-6">
-<label>Parent/Guardian Aadhaar</label>
-<input type="text" id="guardianAadhaar" required pattern="\d{12}">
+<!-- NEW: Whose ID is being entered -->
+<div class="col-4">
+<label>Whose ID is Provided?</label>
+<select id="idOwner" required>
+<option value="">Select Person</option>
+<option>Father</option>
+<option>Mother</option>
+<option>Guardian</option>
+</select>
 </div>
 
+<!-- NEW: What type of ID -->
+<div class="col-4">
+<label>ID Type</label>
+<select id="idType" required>
+<option value="">Select Document</option>
+<option>Aadhaar</option>
+<option>PAN</option>
+<option>Voter ID</option>
+<option>Driving License</option>
+</select>
+</div>
+
+<!-- UPDATED: The actual ID number (Removed the 12-digit pattern limit) -->
+<div class="col-4">
+<label>Identity Document Number</label>
+<input type="text" id="idNumber" required style="text-transform: uppercase;">
+</div>
 <div class="col-6">
 <label>Contact Phone Number</label>
 <input type="tel" id="phone" required pattern="[0-9]{10}">
@@ -371,7 +394,7 @@ All fields are mandatory for admission processing.
 
 <div class="col-12">
 <label>Full Residential Address</label>
-<textarea id="address" rows="3" required></textarea>
+<textarea id="address" rows="3" required style="text-transform: uppercase;"></textarea>
 </div>
 
 <div class="col-12">
@@ -381,7 +404,7 @@ All fields are mandatory for admission processing.
 
 <div class="col-12">
 <label>Remarks (If there are any kind of mismatch in documents)</label>
-<input type="text" id="remarks">
+<input type="text" id="remarks" style="text-transform: uppercase;">
 </div>
 
 </div>
@@ -456,7 +479,9 @@ document.getElementById('admissionForm').addEventListener('submit',function(e){
     formData.append("studentAadhaar",document.getElementById("studentAadhaar").value);
     formData.append("father",document.getElementById("father").value);
     formData.append("mother",document.getElementById("mother").value);
-    formData.append("guardianAadhaar",document.getElementById("guardianAadhaar").value);
+    formData.append("idOwner",document.getElementById("idOwner").value);
+formData.append("idType",document.getElementById("idType").value);
+formData.append("idNumber",document.getElementById("idNumber").value);
     formData.append("phone",document.getElementById("phone").value);
     formData.append("address",document.getElementById("address").value);
     formData.append("udise",document.getElementById("udise").value);
