@@ -179,10 +179,15 @@ function showDetails(index) {
     { label: "Gender", val: s.sex },
     { label: "Date of Birth", val: s.dob },
     { label: "Date of Admission", val: s.admissionDate },
-    { label: "Student Aadhaar", val: s.studentAadhaar }, // Field added here
+    { label: "Student Aadhaar", val: s.studentAadhaar }, 
     { label: "APAAR ID", val: s.apaar },
     { label: "Father's Name", val: s.father },
     { label: "Mother's Name", val: s.mother },
+    // --- NEW PARENT ID FIELDS ADDED HERE ---
+    { label: "ID Provided By", val: s.idOwner },
+    { label: "ID Document Type", val: s.idType },
+    { label: "Identity Number", val: s.idNumber },
+    // ---------------------------------------
     { label: "Phone", val: s.phone },
     { label: "Category", val: s.socialCategory },
     { label: "PEN", val: s.pen },
@@ -191,7 +196,7 @@ function showDetails(index) {
     { label: "Remarks", val: s.remarks }
   ];
 
-grid.innerHTML = fields.map(f => {
+  grid.innerHTML = fields.map(f => {
     const isRemarks = f.label === "Remarks";
     
     return `
@@ -202,7 +207,7 @@ grid.innerHTML = fields.map(f => {
         </div>
       </div>
     `;
-}).join('');
+  }).join('');
 
   document.getElementById("modalOverlay").style.display = "flex";
 }
