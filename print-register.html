@@ -74,7 +74,7 @@ function formatDate(dateStr) {
     return `${day}/${month}/${year}`;
 }
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUSdhh7d_ZJAC2cFocGhAr0SMCb4bre_mHDWV-U0McaHY7EL54Hp-w7o3HQv2V5Gsv/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby25whXVXIWoRQRkXo9JXS3np2Sy9qAzVLDxSTnnt-kWrA5vMMUn3RGnxgdIBaprSiY/exec";
 
 fetch(`${SCRIPT_URL}?session=2026-27`)
     .then(res => res.json())
@@ -87,7 +87,7 @@ fetch(`${SCRIPT_URL}?session=2026-27`)
             return (parseInt(a[1]) || 0) - (parseInt(b[1]) || 0);
         });
 
-        data.forEach((s) => {
+data.forEach((s) => {
             tbody.innerHTML += `
                 <tr>
                     <td align="center">
@@ -107,8 +107,10 @@ fetch(`${SCRIPT_URL}?session=2026-27`)
                         <div class="cell-container">
                             <div class="data-row"><span class="label">Father:</span> ${s[13]}</div>
                             <div class="data-row"><span class="label">Mother:</span> ${s[14]}</div>
-                            <div class="data-row"><span class="label">Phone:</span> ${s[16]}</div>
-                            <div class="data-row"><span class="label">Guardian's Aadhaar No:</span> ${s[15]}</div>
+                            <!-- Phone shifted from 16 to 18 -->
+                            <div class="data-row"><span class="label">Phone:</span> ${s[18]}</div> 
+                            <!-- New ID Display: Owner [15], Type [16], Number [17] -->
+                            <div class="data-row"><span class="label">${s[15] || 'Guardian'} ID (${s[16] || 'Document'}):</span> ${s[17] || 'N/A'}</div>
                         </div>
                     </td>
                     <td>
@@ -121,9 +123,12 @@ fetch(`${SCRIPT_URL}?session=2026-27`)
                     </td>
                     <td>
                         <div class="cell-container">
-                            <div class="data-row"><span class="label">Address:</span> ${s[17]}</div>
-                            <div class="data-row"><span class="label">Prev UDISE:</span> ${s[18]}</div>
-                            <div class="data-row" style="font-style: italic;"><span class="label">Remarks:</span> ${s[19] || 'Nil'}</div>
+                            <!-- Address shifted from 17 to 19 -->
+                            <div class="data-row"><span class="label">Address:</span> ${s[19]}</div>
+                            <!-- UDISE shifted from 18 to 20 -->
+                            <div class="data-row"><span class="label">Prev UDISE:</span> ${s[20]}</div>
+                            <!-- Remarks shifted from 19 to 21 -->
+                            <div class="data-row" style="font-style: italic;"><span class="label">Remarks:</span> ${s[21] || 'Nil'}</div>
                         </div>
                     </td>
                 </tr>
