@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merit Register - Irongmara ME School</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --gov-blue: #002147;
+            --samagra-orange: #f37021;
+            --white: #ffffff;
+            --light-gray: #f4f7f6;
+        }
+
+        body {
+            font-family: 'Times New Roman', serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-gray);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Continuous High-Frequency Watermark */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("SSA.png");
+            background-repeat: repeat;
+            background-size: 120px;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Top Govt Strip */
+        .gov-bar {
+            background: #000;
+            color: white;
+            font-size: 11px;
+            text-align: center;
+            padding: 4px 0;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            color: var(--gov-blue);
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 4px solid var(--gov-blue);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto 10px auto;
+            padding: 0 20px;
+        }
+
+        .ashok-stambh { height: 90px; width: auto; }
+        
+        .school-name {
+            font-size: 2.2rem;
+            margin: 5px 0;
+            font-weight: bold;
+            color: var(--gov-blue);
+            letter-spacing: 1px;
+        }
+
+        .header-details {
+            font-size: 0.95rem;
+            color: #444;
+            line-height: 1.4;
+        }
+
+        /* Main Container for Merit Register */
+        main {
+            flex: 1;
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            border-top: 6px solid #7c3aed;
+            width: 95%;
+        }
+
+        .module-title {
+            color: var(--gov-blue);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Controls Section */
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            background: var(--light-gray);
+            padding: 15px;
+            border-radius: 6px;
+            align-items: center;
+        }
+
+        .controls select, .controls input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .btn {
+            background-color: #7c3aed;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .btn:hover { background-color: #6d28d9; }
+        .btn-print { background-color: #10b981; margin-left: auto; display: none; }
+
+        /* Data Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: var(--gov-blue);
+            color: white;
+        }
+
+        tr:nth-child(even) { background-color: #f9f9f9; }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-style: italic;
+            display: none;
+        }
+
+        /* Print Specific Styles */
+        @media print {
+            body { background: white; }
+            .gov-bar, .controls, .btn, footer, .meta-strip, .logout-btn { display: none !important; }
+            main { box-shadow: none; border: none; margin: 0; padding: 0; width: 100%; }
+            body::before { opacity: 0.1; } /* Keep watermark slightly visible for official look */
+        }
+    </style>
+</head>
+<body>
+
+<div class="gov-bar">Department of Elementary Education, Govt. of Assam</div>
+
+<header>
+    <div class="header-top">
+        <img src="Ashok Stambh.png" alt="Ashok Stambh" class="ashok-stambh">
+    </div>
+    <div class="school-title-area">
+        <h2 style="margin:0; font-size: 1.1rem; color: #555;">OFFICE OF THE HEAD MASTER</h2>
+        <h1 class="school-name">IRONGMARA ME SCHOOL</h1>
+        <div class="header-details">
+            Near Irongmara Playground, PO- Irongmara, PS- Dwarbandh, CACHAR, ASSAM PIN: 788011<br>
+            <strong>UDISE:</strong> 18210307902
+        </div>
+    </div>
+    <div class="logout-btn" style="position:absolute; right:40px; top:30px; font-weight:bold;">
+        <a href="index.html" style="color:var(--gov-blue); text-decoration:none; margin-right: 15px;">&larr; Back to Dashboard</a>
+    </div>
+</header>
+
+<main>
+    <div class="module-title">
+        <h2>Merit Register / Rank List</h2>
+        <button class="btn btn-print" id="printBtn" onclick="window.print()"><i class="fas fa-print"></i> Print Register</button>
+    </div>
+
+    <div class="controls">
+        <label for="classSelect">Class:</label>
+        <select id="classSelect">
+            <option value="Class VI A">Class VI A</option>
+            <option value="Class VI B">Class VI B</option>
+            <option value="Class VII A">Class VII A</option>
+            <option value="Class VII B">Class VII B</option>
+            <option value="Class VIII A">Class VIII A</option>
+            <option value="Class VIII B">Class VIII B</option>
+        </select>
+
+        <label for="examSelect">Exam Term:</label>
+        <select id="examSelect">
+            <option value="Formative Assessment I">Formative Assessment I</option>
+            <option value="Summative Assessment I">Summative Assessment I (Half Yearly)</option>
+            <option value="Formative Assessment II">Formative Assessment I</option>
+            <option value="Summative Assessment II">Summative Assessment I (Annual)</option>
+	    <option value="Grand Final">Grand Final</option>
+
+        </select>
+
+        <button class="btn" onclick="fetchMeritData()">Generate Merit List</button>
+    </div>
+
+    <div id="loading" class="loading"><i class="fas fa-spinner fa-spin"></i> Fetching data from database...</div>
+
+    <table id="meritTable" style="display:none;">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Roll No</th>
+                <th>Student Name</th>
+                <th>Total Marks</th>
+                <th>Percentage</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- Data will be populated here via JavaScript -->
+        </tbody>
+    </table>
+</main>
+
+<script>
+    // Security check (copied from your main page)
+    var teacher = sessionStorage.getItem("teacherName");
+    var token = sessionStorage.getItem("sessionToken");
+    if(!teacher || !token){
+        window.location.href="login.html";
+    }
+
+    // --- GOOGLE SHEETS INTEGRATION ---
+    // Replace this URL with your Google Apps Script Web App URL
+    const GOOGLE_WEB_APP_URL = "YOUR_WEB_APP_URL_HERE"; 
+
+    function fetchMeritData() {
+        const classVal = document.getElementById("classSelect").value;
+        const examVal = document.getElementById("examSelect").value;
+        
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("meritTable").style.display = "none";
+        document.getElementById("printBtn").style.display = "none";
+        document.getElementById("tableBody").innerHTML = "";
+
+        // Fetching data from Google Sheets API
+        fetch(`${GOOGLE_WEB_APP_URL}?studentClass=${classVal}&exam=${examVal}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("meritTable").style.display = "table";
+                document.getElementById("printBtn").style.display = "block";
+                
+                populateTable(data);
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+                document.getElementById("loading").innerHTML = "<span style='color:red;'>Error fetching data. Check your connection or Google Sheet link.</span>";
+            });
+    }
+
+    function populateTable(data) {
+        const tbody = document.getElementById("tableBody");
+        
+        // Sort data by total marks descending to assign ranks
+        data.sort((a, b) => b.TotalMarks - a.TotalMarks);
+
+        let rank = 1;
+        data.forEach((student, index) => {
+            // Handle tied scores (same marks = same rank)
+            if (index > 0 && student.TotalMarks < data[index - 1].TotalMarks) {
+                rank = index + 1;
+            }
+
+            const row = `<tr>
+                <td><strong>${rank}</strong></td>
+                <td>${student.RollNo}</td>
+                <td style="text-align:left; font-weight:bold;">${student.Name}</td>
+                <td>${student.TotalMarks}</td>
+                <td>${student.Percentage}%</td>
+                <td>${student.Grade}</td>
+            </tr>`;
+            tbody.innerHTML += row;
+        });
+    }
+</script>
+
+</body>
+</html>
