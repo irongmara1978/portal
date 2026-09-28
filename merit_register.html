@@ -235,12 +235,12 @@
     <table id="meritTable" style="display:none;">
         <thead>
             <tr>
-                <th>Rank</th>
                 <th>Roll No</th>
                 <th>Student Name</th>
                 <th>Total Marks</th>
                 <th>Percentage</th>
                 <th>Grade</th>
+                <th>Rank</th>
             </tr>
         </thead>
         <tbody id="tableBody">
@@ -288,25 +288,39 @@
 
     function populateTable(data) {
         const tbody = document.getElementById("tableBody");
+        tbody.innerHTML = ""; // Clear existing table data
         
-        // Sort data by total marks descending to assign ranks
+        // Step 1: Sort by total marks descending to calculate ranks
         data.sort((a, b) => b.TotalMarks - a.TotalMarks);
 
-        let rank = 1;
+        let currentRank = 1;
         data.forEach((student, index) => {
             // Handle tied scores (same marks = same rank)
             if (index > 0 && student.TotalMarks < data[index - 1].TotalMarks) {
-                rank = index + 1;
+                currentRank = index + 1;
             }
+            // Store the calculated rank inside the student object
+            student.Rank = currentRank;
+        });
+
+        // Step 2: Re-sort the data by Roll No (Ascending)
+        data.sort((a, b) => Number(a.RollNo) - Number(b.RollNo));
+
+        // Step 3: Render the table
+        data.forEach((student) => {
+            
+            // Only display rank if it is between 1 and 10; otherwise, show a dash
+            let displayRank = student.Rank <= 10 ? `<strong>${student.Rank}</strong>` : "-";
 
             const row = `<tr>
-                <td><strong>${rank}</strong></td>
                 <td>${student.RollNo}</td>
                 <td style="text-align:left; font-weight:bold;">${student.Name}</td>
                 <td>${student.TotalMarks}</td>
                 <td>${student.Percentage}%</td>
                 <td>${student.Grade}</td>
+                <td>${displayRank}</td>
             </tr>`;
+            
             tbody.innerHTML += row;
         });
     }
