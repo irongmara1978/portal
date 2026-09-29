@@ -247,6 +247,25 @@
             <!-- Data will be populated here via JavaScript -->
         </tbody>
     </table>
+
+	<!-- New Top 5 Rankers Section -->
+    <div id="topRankersContainer" style="display:none; margin-top: 40px; padding: 15px; border: 2px solid var(--samagra-orange); border-radius: 8px; background-color: #fff7ed;">
+        <h3 style="color: var(--samagra-orange); text-align: center; margin-top: 0; text-transform: uppercase;">🌟 Top 5 Rankers 🌟</h3>
+        <table id="topRankersTable" style="margin-top: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <thead>
+                <tr style="background-color: var(--samagra-orange);">
+                    <th>Rank</th>
+                    <th>Roll No</th>
+                    <th>Student Name</th>
+                    <th>Total Marks</th>
+                    <th>Percentage</th>
+                </tr>
+            </thead>
+            <tbody id="topRankersBody">
+                <!-- Top 5 data will be populated here -->
+            </tbody>
+        </table>
+    </div>
 </main>
 
 <script>
@@ -267,15 +286,18 @@
         
         document.getElementById("loading").style.display = "block";
         document.getElementById("meritTable").style.display = "none";
+        document.getElementById("topRankersContainer").style.display = "none"; // Hide on new fetch
         document.getElementById("printBtn").style.display = "none";
+        
         document.getElementById("tableBody").innerHTML = "";
+        document.getElementById("topRankersBody").innerHTML = "";
 
-        // Fetching data from Google Sheets API
         fetch(`${GOOGLE_WEB_APP_URL}?studentClass=${classVal}&exam=${examVal}`)
             .then(response => response.json())
             .then(data => {
                 document.getElementById("loading").style.display = "none";
                 document.getElementById("meritTable").style.display = "table";
+                document.getElementById("topRankersContainer").style.display = "block"; // Show top 5
                 document.getElementById("printBtn").style.display = "block";
                 
                 populateTable(data);
@@ -288,28 +310,27 @@
 
     function populateTable(data) {
         const tbody = document.getElementById("tableBody");
-        tbody.innerHTML = ""; // Clear existing table data
+        const top5Body = document.getElementById("topRankersBody");
+        
+        tbody.innerHTML = ""; 
+        top5Body.innerHTML = ""; 
         
         // Step 1: Sort by total marks descending to calculate ranks
         data.sort((a, b) => b.TotalMarks - a.TotalMarks);
 
         let currentRank = 1;
         data.forEach((student, index) => {
-            // Handle tied scores (same marks = same rank)
             if (index > 0 && student.TotalMarks < data[index - 1].TotalMarks) {
                 currentRank = index + 1;
             }
-            // Store the calculated rank inside the student object
             student.Rank = currentRank;
         });
 
-        // Step 2: Re-sort the data by Roll No (Ascending)
+        // Step 2: Re-sort the data by Roll No (Ascending) for the Main Table
         data.sort((a, b) => Number(a.RollNo) - Number(b.RollNo));
 
-        // Step 3: Render the table
+        // Step 3: Render the Main Table
         data.forEach((student) => {
-            
-            // Only display rank if it is between 1 and 10; otherwise, show a dash
             let displayRank = student.Rank <= 10 ? `<strong>${student.Rank}</strong>` : "-";
 
             const row = `<tr>
@@ -320,8 +341,24 @@
                 <td>${student.Grade}</td>
                 <td>${displayRank}</td>
             </tr>`;
-            
             tbody.innerHTML += row;
+        });
+
+        // Step 4: Extract, Sort, and Render Top 5 Rankers
+        const top5Students = data.filter(student => student.Rank <= 5);
+        
+        // Sort the Top 5 by Rank (Ascending)
+        top5Students.sort((a, b) => a.Rank - b.Rank);
+
+        top5Students.forEach((student) => {
+            const row = `<tr>
+                <td style="font-size: 1.1rem; color: #c2410c;"><strong>${student.Rank}</strong></td>
+                <td>${student.RollNo}</td>
+                <td style="text-align:left; font-weight:bold; font-size: 1.05rem;">${student.Name}</td>
+                <td><strong>${student.TotalMarks}</strong></td>
+                <td><strong>${student.Percentage}%</strong></td>
+            </tr>`;
+            top5Body.innerHTML += row;
         });
     }
 </script>
